@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnSense.ai - AI-Powered Equipment Maintenance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(100, 150, 255, 0.7);
+        }
+        
+        .glow-box {
+            box-shadow: 0 0 15px rgba(100, 150, 255, 0.5);
+        }
+        
+        .circuit-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23333' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        #threejs-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 15px); }
+            100% { transform: translate(0, -0px); }
+        }
+        
+        .floating-delay-1 {
+            animation-delay: 1s;
+        }
+        
+        .floating-delay-2 {
+            animation-delay: 2s;
+        }
+        
+        .hover-grow {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-grow:hover {
+            transform: scale(1.05);
+        }
+        
+        .card-hover-effect {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover-effect:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(100, 150, 255, 0.2);
+        }
+        
+        .gradient-border {
+            position: relative;
+            border-radius: 0.5rem;
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.5rem;
+            padding: 2px;
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .scroll-section {
+            scroll-snap-align: start;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4facfe;
+            left: -10px;
+            top: 0;
+        }
+        
+        .timeline-connector {
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: -20px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Three.js Background Canvas -->
+    <div id="threejs-bg"></div>
+    
+    <!-- Navigation -->
+    <nav class="relative z-50 py-6 px-6 lg:px-16">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 flex items-center justify-center mr-3">
+                    <i class="fas fa-brain text-white text-lg"></i>
+                </div>
+                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-500">OnSense.ai</span>
+            </div>
+            <div class="hidden lg:flex space-x-8">
+                <a href="#" class="text-gray-300 hover:text-white transition">Product</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Solutions</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Resources</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Company</a>
+            </div>
+            <div class="hidden lg:flex space-x-4">
+                <button class="px-6 py-2 rounded-full border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white transition">Login</button>
+                <button class="px-6 py-2 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 text-white hover:opacity-90 transition">Get Demo</button>
+            </div>
+            <button class="lg:hidden text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="relative hero-gradient min-h-screen flex items-center justify-center overflow-hidden pt-16 pb-32 px-6">
+        <div class="absolute inset-0 circuit-pattern opacity-10"></div>
+        <div class="relative z-10 text-center max-w-4xl mx-auto">
+            <div class="floating mb-8">
+                <div class="inline-block px-4 py-2 rounded-full bg-blue-900 bg-opacity-30 border border-blue-500 text-blue-300 text-sm mb-6">
+                    <span class="mr-2">🚀</span> AI-POWERED MAINTENANCE PLATFORM
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 glow-text">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-cyan-300">OnSense AI</span>
+                </h1>
+                <h2 class="text-2xl md:text-3xl font-medium text-gray-300 mb-8">The Brain Behind Every Machine</h2>
+                <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                    AI-powered system for faster, smarter repairs & predictive maintenance.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:opacity-90 transition transform hover:scale-105 glow-box">
+                        Watch How It Works <i class="fas fa-play ml-2"></i>
+                    </button>
+                    <button class="px-8 py-4 rounded-full bg-transparent border-2 border-blue-400 text-blue-400 font-medium hover:bg-blue-900 hover:bg-opacity-30 transition transform hover:scale-105">
+                        Request Demo <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-24 grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+                <div class="bg-gray-900 bg-opacity-50 p-4 rounded-xl backdrop-blur-sm border border-gray-800 hover-grow">
+                    <img src="https://via.placeholder.com/80x40?text=Logo1" alt="Partner Logo" class="h-8 mx-auto opacity-80 hover:opacity-100">
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-4 rounded-xl backdrop-blur-sm border border-gray-800 hover-grow">
+                    <img src="https://via.placeholder.com/80x40?text=Logo2" alt="Partner Logo" class="h-8 mx-auto opacity-80 hover:opacity-100">
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-4 rounded-xl backdrop-blur-sm border border-gray-800 hover-grow">
+                    <img src="https://via.placeholder.com/80x40?text=Logo3" alt="Partner Logo" class="h-8 mx-auto opacity-80 hover:opacity-100">
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-4 rounded-xl backdrop-blur-sm border border-gray-800 hover-grow">
+                    <img src="https://via.placeholder.com/80x40?text=Logo4" alt="Partner Logo" class="h-8 mx-auto opacity-80 hover:opacity-100">
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-4 rounded-xl backdrop-blur-sm border border-gray-800 hover-grow">
+                    <img src="https://via.placeholder.com/80x40?text=Logo5" alt="Partner Logo" class="h-8 mx-auto opacity-80 hover:opacity-100">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating AI Elements -->
+        <div class="absolute top-1/4 left-1/4 w-16 h-16 rounded-full bg-blue-500 opacity-20 blur-xl floating"></div>
+        <div class="absolute top-1/3 right-1/4 w-24 h-24 rounded-full bg-cyan-500 opacity-20 blur-xl floating floating-delay-1"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-20 h-20 rounded-full bg-purple-500 opacity-20 blur-xl floating floating-delay-2"></div>
+    </section>
+    
+    <!-- Problem Section -->
+    <section class="py-20 px-6 bg-gray-900 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Repairs Are Stuck in the 1990s</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Every breakdown starts from scratch. No data. No memory. Just endless cycles of frustration.
+                </p>
+            </div>
+            
+            <div class="relative">
+                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-500 transform -translate-x-1/2"></div>
+                
+                <div class="grid md:grid-cols-5 gap-8">
+                    <!-- Problem Step 1 -->
+                    <div class="relative md:col-span-1 text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-red-500 flex items-center justify-center">
+                            <i class="fas fa-times text-3xl text-red-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Machine Breaks</h3>
+                        <p class="text-gray-400">Unexpected downtime costs thousands per hour</p>
+                    </div>
+                    
+                    <!-- Problem Step 2 -->
+                    <div class="relative md:col-span-1 text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-orange-500 flex items-center justify-center">
+                            <i class="fas fa-search text-3xl text-orange-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Long Diagnosis</h3>
+                        <p class="text-gray-400">Technicians spend hours troubleshooting</p>
+                    </div>
+                    
+                    <!-- Problem Step 3 -->
+                    <div class="relative md:col-span-1 text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-yellow-500 flex items-center justify-center">
+                            <i class="fas fa-truck text-3xl text-yellow-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Parts Ordered</h3>
+                        <p class="text-gray-400">Waiting days or weeks for delivery</p>
+                    </div>
+                    
+                    <!-- Problem Step 4 -->
+                    <div class="relative md:col-span-1 text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-purple-500 flex items-center justify-center">
+                            <i class="fas fa-clock text-3xl text-purple-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Time Lost</h3>
+                        <p class="text-gray-400">Productivity suffers during extended downtime</p>
+                    </div>
+                    
+                    <!-- Problem Step 5 -->
+                    <div class="relative md:col-span-1 text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-red-500 flex items-center justify-center">
+                            <i class="fas fa-sync-alt text-3xl text-red-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Machine Breaks Again</h3>
+                        <p class="text-gray-400">The cycle repeats with no institutional memory</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Solution Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-gray-900 to-gray-800 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Meet OnSense AI</span>
+                </h2>
+                <p class="text-2xl text-gray-300 max-w-3xl mx-auto">
+                    A Smarter Way to Fix
+                </p>
+            </div>
+            
+            <div class="relative">
+                <div class="grid md:grid-cols-4 gap-8 mb-12">
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-900 bg-opacity-50 border border-blue-500 flex items-center justify-center">
+                            <i class="fas fa-home text-2xl text-blue-400"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Tenant</h3>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-900 bg-opacity-50 border border-blue-500 flex items-center justify-center">
+                            <i class="fas fa-building text-2xl text-blue-400"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Property Manager</h3>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-900 bg-opacity-50 border border-blue-500 flex items-center justify-center">
+                            <i class="fas fa-tools text-2xl text-blue-400"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Technician</h3>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-900 bg-opacity-50 border border-blue-500 flex items-center justify-center">
+                            <i class="fas fa-warehouse text-2xl text-blue-400"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">OEM/Part Store</h3>
+                    </div>
+                </div>
+                
+                <div class="relative h-32 mb-12">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-full max-w-2xl h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 rounded-full"></div>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse"></div>
+                    </div>
+                </div>
+                
+                <div class="text-center max-w-3xl mx-auto">
+                    <h3 class="text-2xl font-semibold mb-4">OnSense AI connects everyone</h3>
+                    <p class="text-xl text-gray-400 mb-6">
+                        Diagnose early. Fix faster. Order the right parts. All powered by AI.
+                    </p>
+                    <button class="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:opacity-90 transition">
+                        See How It Works <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Data Power Section -->
+    <section class="py-20 px-6 bg-gray-800 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Built on 9 Years of Industry Data</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Our AI learns from millions of repair scenarios to provide the most accurate diagnostics
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">1.2M</div>
+                    <div class="text-gray-400">Models</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">3.6M</div>
+                    <div class="text-gray-400">Exploded Diagrams</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">600K</div>
+                    <div class="text-gray-400">Smart Manuals</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">1.6M</div>
+                    <div class="text-gray-400">Repair Parts</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">145</div>
+                    <div class="text-gray-400">Brands</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">6,500</div>
+                    <div class="text-gray-400">Error Codes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works Section -->
+    <section class="py-20 px-6 bg-gray-900 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">From Breakdown to Fix – In Minutes</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Our AI-powered workflow transforms the repair process from days to minutes
+                </p>
+            </div>
+            
+            <div class="relative">
+                <div class="hidden md:block absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-500 ml-6"></div>
+                
+                <div class="space-y-12 pl-0 md:pl-16">
+                    <!-- Step 1 -->
+                    <div class="relative pl-8 md:pl-12">
+                        <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                            <span class="text-white font-bold">1</span>
+                        </div>
+                        <div class="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <i class="fas fa-comment-dots text-blue-400 mr-3"></i> User enters symptoms
+                            </h3>
+                            <p class="text-gray-400">
+                                Simply describe the issue or upload photos/videos. Our AI understands natural language.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="relative pl-8 md:pl-12">
+                        <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                            <span class="text-white font-bold">2</span>
+                        </div>
+                        <div class="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <i class="fas fa-brain text-blue-400 mr-3"></i> AI provides a possible fix
+                            </h3>
+                            <p class="text-gray-400">
+                                Our system analyzes millions of similar cases to suggest the most likely solution.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="relative pl-8 md:pl-12">
+                        <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                            <span class="text-white font-bold">3</span>
+                        </div>
+                        <div class="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <i class="fas fa-box-open text-blue-400 mr-3"></i> Suggests parts
+                            </h3>
+                            <p class="text-gray-400">
+                                Get exact part numbers, compatible alternatives, and where to purchase them.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="relative pl-8 md:pl-12">
+                        <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                            <span class="text-white font-bold">4</span>
+                        </div>
+                        <div class="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <i class="fas fa-shopping-cart text-blue-400 mr-3"></i> Order parts
+                            </h3>
+                            <p class="text-gray-400">
+                                One-click ordering from our network of suppliers with real-time inventory.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5 -->
+                    <div class="relative pl-8 md:pl-12">
+                        <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                            <span class="text-white font-bold">5</span>
+                        </div>
+                        <div class="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <i class="fas fa-tools text-blue-400 mr-3"></i> Technician comes or user DIYs
+                            </h3>
+                            <p class="text-gray-400">
+                                Connect with certified technicians or follow our step-by-step repair guides.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Results Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Proven Results That Save Time & Money</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Our customers experience dramatic improvements in repair efficiency and cost savings
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">657%</div>
+                    <div class="text-gray-400">ROI</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">83%</div>
+                    <div class="text-gray-400">AI Accuracy</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">2.2x</div>
+                    <div class="text-gray-400">Technician Productivity</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">66%</div>
+                    <div class="text-gray-400">Savings on Repairs</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">32%</div>
+                    <div class="text-gray-400">Monthly AI Accuracy Growth</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Who Uses Section -->
+    <section class="py-20 px-6 bg-gray-900 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Who Uses OnSense AI</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Our platform delivers value across the entire equipment maintenance ecosystem
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="w-16 h-16 mb-6 rounded-full bg-blue-900 bg-opacity-30 flex items-center justify-center">
+                        <i class="fas fa-home text-2xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Homeowners</h3>
+                    <p class="text-gray-400 mb-4">
+                        DIY guides, save $1000s, easy repairs with step-by-step AI assistance
+                    </p>
+                    <a href="#" class="text-blue-400 hover:text-blue-300 flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="w-16 h-16 mb-6 rounded-full bg-blue-900 bg-opacity-30 flex items-center justify-center">
+                        <i class="fas fa-building text-2xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Property Managers</h3>
+                    <p class="text-gray-400 mb-4">
+                        Prevent downtime, fast fixes, and streamlined maintenance operations
+                    </p>
+                    <a href="#" class="text-blue-400 hover:text-blue-300 flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="w-16 h-16 mb-6 rounded-full bg-blue-900 bg-opacity-30 flex items-center justify-center">
+                        <i class="fas fa-tools text-2xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Technicians</h3>
+                    <p class="text-gray-400 mb-4">
+                        Smart tools, better first-time fixes, and increased service capacity
+                    </p>
+                    <a href="#" class="text-blue-400 hover:text-blue-300 flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="w-16 h-16 mb-6 rounded-full bg-blue-900 bg-opacity-30 flex items-center justify-center">
+                        <i class="fas fa-warehouse text-2xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Brands</h3>
+                    <p class="text-gray-400 mb-4">
+                        Boost customer loyalty and sales through enhanced support capabilities
+                    </p>
+                    <a href="#" class="text-blue-400 hover:text-blue-300 flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Market Opportunity Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-gray-900 to-gray-800 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">A $1.7 Trillion Market</span>
+                </h2>
+                <p class="text-2xl text-gray-300">
+                    We're Already In.
+                </p>
+            </div>
+            
+            <div class="relative">
+                <div class="bg-gray-900 bg-opacity-50 rounded-xl p-8 mb-12 border border-gray-700">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="mb-6 md:mb-0 md:w-1/2">
+                            <div class="text-5xl font-bold mb-4 text-blue-400">$1.7T</div>
+                            <p class="text-xl text-gray-400">
+                                Total Addressable Market (TAM)
+                            </p>
+                        </div>
+                        <div class="mb-6 md:mb-0 md:w-1/2">
+                            <div class="text-5xl font-bold mb-4 text-blue-400">$57B</div>
+                            <p class="text-xl text-gray-400">
+                                Serviceable Available Market (SAM)
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="text-5xl font-bold mb-4 text-blue-400">$308M</div>
+                            <p class="text-xl text-gray-400">
+                                Serviceable Obtainable Market (SOM)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 bg-opacity-30 rounded-xl p-8 border border-gray-700">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="mb-6 md:mb-0 md:w-1/2">
+                            <h3 class="text-2xl font-semibold mb-4">North America Coverage</h3>
+                            <p class="text-gray-400 mb-6">
+                                Our AI platform is already serving customers across the continent with growing adoption.
+                            </p>
+                            <button class="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:opacity-90 transition">
+                                See Our Coverage <i class="fas fa-map-marked-alt ml-2"></i>
+                            </button>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="bg-gray-800 rounded-lg p-4">
+                                <img src="https://via.placeholder.com/500x300?text=North+America+Map" alt="Market Coverage" class="w-full rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Proof Section -->
+    <section class="py-20 px-6 bg-gray-800 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Already Creating Impact</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Our platform is delivering real results for customers and partners
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">3000+</div>
+                    <div class="text-gray-400">Customers Served</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">$6M</div>
+                    <div class="text-gray-400">Sales Pipeline</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">150K</div>
+                    <div class="text-gray-400">Homes</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-4xl font-bold mb-2 text-blue-400">1000+</div>
+                    <div class="text-gray-400">Technicians</div>
+                </div>
+                <div class="bg-gray-900 bg-opacity-50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition card-hover-effect">
+                    <div class="text-xl font-bold mb-2 text-blue-400">Enterprise Pilot</div>
+                    <div class="text-gray-400">with PartSelect.com</div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-900 bg-opacity-30 rounded-xl p-8 border border-gray-700">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="mb-6 md:mb-0 md:w-1/3">
+                        <img src="https://via.placeholder.com/300x200?text=Customer+Logo" alt="Customer Logo" class="w-full max-w-xs mx-auto">
+                    </div>
+                    <div class="md:w-2/3">
+                        <blockquote class="text-xl italic text-gray-300 mb-6">
+                            "OnSense AI reduced our equipment downtime by 72% and improved first-time fix rates dramatically. Their AI-powered diagnostics are transforming our maintenance operations."
+                        </blockquote>
+                        <div class="text-lg font-semibold">John Smith</div>
+                        <div class="text-gray-400">Director of Facilities, Large Property Management Co.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Final CTA Section -->
+    <section class="py-20 px-6 hero-gradient relative overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-cyan-300">Ready to Keep the World Running?</span>
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-300 mb-10">
+                Smarter repairs start with OnSense AI. Faster. Cheaper. Predictive.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:opacity-90 transition transform hover:scale-105 glow-box">
+                    Book a Demo <i class="fas fa-calendar-alt ml-2"></i>
+                </button>
+                <button class="px-8 py-4 rounded-full bg-transparent border-2 border-blue-400 text-blue-400 font-medium hover:bg-blue-900 hover:bg-opacity-30 transition transform hover:scale-105">
+                    Start Free <i class="fas fa-rocket ml-2"></i>
+                </button>
+                <button class="px-8 py-4 rounded-full bg-transparent border-2 border-cyan-400 text-cyan-400 font-medium hover:bg-cyan-900 hover:bg-opacity-30 transition transform hover:scale-105">
+                    Partner With Us <i class="fas fa-handshake ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 flex items-center justify-center mr-3">
+                            <i class="fas fa-brain text-white text-lg"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-500">OnSense.ai</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        AI-powered system for faster, smarter repairs & predictive maintenance.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">API</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Integrations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Guides</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">
+                    © 2023 OnSense.ai. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="text-gray-500 hover:text-white transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Three.js Background Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up Three.js scene
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('threejs-bg').appendChild(renderer.domElement);
+            
+            // Create floating circuit-like elements
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x4facfe,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Add connecting lines between particles
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x4facfe, transparent: true, opacity: 0.2 });
+            const lines = [];
+            
+            for(let i = 0; i < particlesCount; i += 5) {
+                for(let j = i + 1; j < particlesCount; j += 5) {
+                    const distance = Math.sqrt(
+                        Math.pow(posArray[i*3] - posArray[j*3], 2) +
+                        Math.pow(posArray[i*3+1] - posArray[j*3+1], 2) +
+                        Math.pow(posArray[i*3+2] - posArray[j*3+2], 2)
+                    );
+                    
+                    if(distance < 1.5) {
+                        const geometry = new THREE.BufferGeometry().setFromPoints([
+                            new THREE.Vector3(posArray[i*3], posArray[i*3+1], posArray[i*3+2]),
+                            new THREE.Vector3(posArray[j*3], posArray[j*3+1], posArray[j*3+2])
+                        ]);
+                        
+                        const line = new THREE.Line(geometry, lineMaterial);
+                        scene.add(line);
+                        lines.push(line);
+                    }
+                }
+            }
+            
+            camera.position.z = 3;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.0005;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Hero section animations
+            gsap.from(".hero-gradient h1", {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: "power3.out"
+            });
+            
+            gsap.from(".hero-gradient h2", {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: "power3.out",
+                delay: 0.3
+            });
+            
+            gsap.from(".hero-gradient p", {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: "power3.out",
+                delay: 0.6
+            });
+            
+            gsap.from(".hero-gradient button", {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: "power3.out",
+                delay: 0.9,
+                stagger: 0.1
+            });
+            
+            // Section scroll animations
+            gsap.utils.toArray("section").forEach(section => {
+                gsap.from(section.querySelectorAll("h2, h3, p, div"), {
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.1,
+                    ease: "power3.out"
+                });
+            });
+            
+            // Button glow animation
+            gsap.to(".glow-box", {
+                duration: 2,
+                boxShadow: "0 0 20px rgba(100, 150, 255, 0.8)",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            // Floating elements animation
+            gsap.to(".floating", {
+                duration: 6,
+                y: 15,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            // Counter animations
+            const counters = document.querySelectorAll(".counter");
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+                    
+                    if(count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                updateCount();
+            });
+        });
+    </script>
+</body>
+</html>
