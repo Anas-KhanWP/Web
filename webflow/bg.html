@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnSense.ai - The Brain Behind Every Machine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .hero-text {
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+        .glow-button {
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        .process-step {
+            position: relative;
+        }
+        .process-step::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(0, 255, 255, 0.8), transparent);
+        }
+        .process-step:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Three.js Background -->
+    <div id="threejs-container"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black bg-opacity-80 backdrop-filter backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-cyan-400 text-2xl font-bold">OnSense.ai</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Product</a>
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Solutions</a>
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Customers</a>
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pricing</a>
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Resources</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <button class="bg-transparent border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black px-4 py-2 rounded-md text-sm font-medium transition duration-300">
+                            Request Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="hero-text text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                OnSense AI
+                <span class="block text-cyan-400 mt-4">The Brain Behind Every Machine</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 opacity-0" id="hero-subtext">
+                AI-powered system for faster, smarter repairs & predictive maintenance.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="glow-button bg-cyan-500 text-black font-bold py-3 px-8 rounded-md text-lg">
+                    Watch How It Works
+                </button>
+                <button class="glow-button bg-transparent border-2 border-cyan-400 text-cyan-400 font-bold py-3 px-8 rounded-md text-lg">
+                    Request Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-black bg-opacity-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                Repairs are still stuck in the 1990s.
+                <span class="block text-gray-400 text-xl md:text-2xl mt-4">Every breakdown starts from scratch. No data. No memory.</span>
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8">
+                <div class="problem-card bg-gray-900 p-6 rounded-lg text-center opacity-0 transform translate-y-10">
+                    <div class="text-cyan-400 text-4xl mb-4">1</div>
+                    <h3 class="text-lg font-semibold mb-2">Machine Breaks</h3>
+                    <p class="text-gray-400 text-sm">Unexpected failures disrupt operations</p>
+                </div>
+                <div class="problem-card bg-gray-900 p-6 rounded-lg text-center opacity-0 transform translate-y-10">
+                    <div class="text-cyan-400 text-4xl mb-4">2</div>
+                    <h3 class="text-lg font-semibold mb-2">Long Diagnosis</h3>
+                    <p class="text-gray-400 text-sm">Hours spent troubleshooting</p>
+                </div>
+                <div class="problem-card bg-gray-900 p-6 rounded-lg text-center opacity-0 transform translate-y-10">
+                    <div class="text-cyan-400 text-4xl mb-4">3</div>
+                    <h3 class="text-lg font-semibold mb-2">Parts Ordered</h3>
+                    <p class="text-gray-400 text-sm">Waiting for correct components</p>
+                </div>
+                <div class="problem-card bg-gray-900 p-6 rounded-lg text-center opacity-0 transform translate-y-10">
+                    <div class="text-cyan-400 text-4xl mb-4">4</div>
+                    <h3 class="text-lg font-semibold mb-2">Time Lost</h3>
+                    <p class="text-gray-400 text-sm">Productivity drops significantly</p>
+                </div>
+                <div class="problem-card bg-gray-900 p-6 rounded-lg text-center opacity-0 transform translate-y-10 md:col-span-1 col-span-2">
+                    <div class="text-cyan-400 text-4xl mb-4">5</div>
+                    <h3 class="text-lg font-semibold mb-2">Machine Breaks Again</h3>
+                    <p class="text-gray-400 text-sm">Cycle repeats without improvement</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                Meet OnSense AI – A Smarter Way to Fix
+            </h2>
+            <p class="text-xl text-gray-400 text-center max-w-3xl mx-auto mb-16">
+                OnSense AI connects everyone. Diagnose early. Fix faster. Order the right parts. All powered by AI.
+            </p>
+            
+            <div class="relative">
+                <div class="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 transform -translate-y-1/2 z-0"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                    <div class="solution-card bg-gray-900 bg-opacity-70 p-6 rounded-lg border border-gray-800 transform opacity-0">
+                        <h3 class="text-xl font-bold text-cyan-400 mb-3">Tenant</h3>
+                        <p class="text-gray-300">Report issues instantly with AI-assisted symptom description</p>
+                    </div>
+                    <div class="solution-card bg-gray-900 bg-opacity-70 p-6 rounded-lg border border-gray-800 transform opacity-0">
+                        <h3 class="text-xl font-bold text-purple-400 mb-3">Property Manager</h3>
+                        <p class="text-gray-300">Prioritize and dispatch with AI-powered recommendations</p>
+                    </div>
+                    <div class="solution-card bg-gray-900 bg-opacity-70 p-6 rounded-lg border border-gray-800 transform opacity-0">
+                        <h3 class="text-xl font-bold text-pink-400 mb-3">Technician</h3>
+                        <p class="text-gray-300">Arrive prepared with the right parts and repair knowledge</p>
+                    </div>
+                    <div class="solution-card bg-gray-900 bg-opacity-70 p-6 rounded-lg border border-gray-800 transform opacity-0">
+                        <h3 class="text-xl font-bold text-blue-400 mb-3">OEM/Part Store</h3>
+                        <p class="text-gray-300">Receive accurate part orders with integrated inventory</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted AI Power -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-black bg-opacity-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                Built on 9 Years of Industry Data
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div class="stat-card p-6 rounded-lg text-center card-hover transform opacity-0">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="1.2">0</div>
+                    <h3 class="text-lg">M Models</h3>
+                </div>
+                <div class="stat-card p-6 rounded-lg text-center card-hover transform opacity-0">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="3.6">0</div>
+                    <h3 class="text-lg">M Exploded Diagrams</h3>
+                </div>
+                <div class="stat-card p-6 rounded-lg text-center card-hover transform opacity-0">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="600">0</div>
+                    <h3 class="text-lg">K Smart Manuals</h3>
+                </div>
+                <div class="stat-card p-6 rounded-lg text-center card-hover transform opacity-0">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="1.6">0</div>
+                    <h3 class="text-lg">M Repair Parts</h3>
+                </div>
+                <div class="stat-card p-6 rounded-lg text-center card-hover transform opacity-0">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="145">0</div>
+                    <h3 class="text-lg">Brands</h3>
+                </div>
+                <div class="stat-card p-6 rounded-lg text-center card-hover transform opacity-0">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="6500">0</div>
+                    <h3 class="text-lg">Error Codes</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                From Breakdown to Fix – In Minutes
+            </h2>
+            <p class="text-xl text-gray-400 text-center max-w-3xl mx-auto mb-16">
+                Our AI-powered process transforms equipment repair from frustrating to frictionless
+            </p>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="process-step flex flex-col items-center text-center max-w-xs opacity-0">
+                    <div class="w-20 h-20 rounded-full bg-cyan-500 flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">User enters symptoms</h3>
+                    <p class="text-gray-400">Natural language input or guided questions</p>
+                </div>
+                <div class="process-step flex flex-col items-center text-center max-w-xs opacity-0">
+                    <div class="w-20 h-20 rounded-full bg-cyan-500 flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">AI provides possible fix</h3>
+                    <p class="text-gray-400">Instant diagnosis with confidence scoring</p>
+                </div>
+                <div class="process-step flex flex-col items-center text-center max-w-xs opacity-0">
+                    <div class="w-20 h-20 rounded-full bg-cyan-500 flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Suggests parts</h3>
+                    <p class="text-gray-400">Exact part numbers with availability</p>
+                </div>
+                <div class="process-step flex flex-col items-center text-center max-w-xs opacity-0">
+                    <div class="w-20 h-20 rounded-full bg-cyan-500 flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold">4</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Order parts</h3>
+                    <p class="text-gray-400">One-click ordering from partners</p>
+                </div>
+                <div class="process-step flex flex-col items-center text-center max-w-xs opacity-0">
+                    <div class="w-20 h-20 rounded-full bg-cyan-500 flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold">5</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Technician comes or user DIYs</h3>
+                    <p class="text-gray-400">Guided repair or professional dispatch</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results & Stats -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-black bg-opacity-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                Proven Results That Save Time & Money
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="657">0</div>
+                    <h3 class="text-lg">ROI</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="83">0</div>
+                    <h3 class="text-lg">AI Accuracy</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="2.2">0</div>
+                    <h3 class="text-lg">Technician Productivity</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="66">0</div>
+                    <h3 class="text-lg">Savings on Repairs</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-5xl font-bold text-cyan-400 mb-2 counter" data-target="32">0</div>
+                    <h3 class="text-lg">Monthly AI Accuracy Growth</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who Uses OnSense -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                Who Uses OnSense
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-gray-900 p-8 rounded-lg card-hover transform opacity-0">
+                    <div class="text-4xl mb-4">🏠</div>
+                    <h3 class="text-xl font-bold mb-3">Homeowners</h3>
+                    <p class="text-gray-400">"DIY guides, save $1000s, easy repairs"</p>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-lg card-hover transform opacity-0">
+                    <div class="text-4xl mb-4">🏢</div>
+                    <h3 class="text-xl font-bold mb-3">Property Managers</h3>
+                    <p class="text-gray-400">"Prevent downtime, fast fixes"</p>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-lg card-hover transform opacity-0">
+                    <div class="text-4xl mb-4">👨‍🔧</div>
+                    <h3 class="text-xl font-bold mb-3">Technicians</h3>
+                    <p class="text-gray-400">"Smart tools, better first-time fixes"</p>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-lg card-hover transform opacity-0">
+                    <div class="text-4xl mb-4">🏭</div>
+                    <h3 class="text-xl font-bold mb-3">Brands</h3>
+                    <p class="text-gray-400">"Boost customer loyalty and sales"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Opportunity -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-black bg-opacity-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                A $1.7 Trillion Market. We're Already In.
+            </h2>
+            <p class="text-xl text-gray-400 text-center max-w-3xl mx-auto mb-16">
+                The global equipment maintenance and repair market is massive and ready for disruption
+            </p>
+            
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="w-full md:w-1/2">
+                    <div class="bg-gray-900 rounded-lg p-8 h-64 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-6xl font-bold text-cyan-400 mb-2">$1.7T</div>
+                            <h3 class="text-xl">Total Addressable Market</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 grid grid-cols-2 gap-4">
+                    <div class="bg-gray-900 rounded-lg p-6 h-32 flex flex-col items-center justify-center">
+                        <div class="text-3xl font-bold text-cyan-400">$57B</div>
+                        <h3 class="text-lg">SAM</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-6 h-32 flex flex-col items-center justify-center">
+                        <div class="text-3xl font-bold text-cyan-400">$308M</div>
+                        <h3 class="text-lg">SOM</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-6 h-32 flex flex-col items-center justify-center col-span-2">
+                        <div class="text-xl text-gray-300">North America Market Penetration</div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5 mt-2">
+                            <div class="bg-cyan-500 h-2.5 rounded-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proof & Pilots -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                Already Creating Impact
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-4xl font-bold text-cyan-400 mb-2 counter" data-target="3000">0</div>
+                    <h3 class="text-lg">Customers Served</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-4xl font-bold text-cyan-400 mb-2 counter" data-target="6">0</div>
+                    <h3 class="text-lg">M Sales Pipeline</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-4xl font-bold text-cyan-400 mb-2 counter" data-target="150">0</div>
+                    <h3 class="text-lg">K Homes</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-4xl font-bold text-cyan-400 mb-2 counter" data-target="1000">0</div>
+                    <h3 class="text-lg">+ Technicians</h3>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg text-center card-hover">
+                    <div class="text-xl font-bold text-cyan-400 mb-2">Enterprise Pilot</div>
+                    <h3 class="text-lg">with PartSelect.com</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 to-black">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                Ready to Keep the World Running?
+            </h2>
+            <p class="text-xl text-gray-300 mb-12">
+                Smarter repairs start with OnSense AI. Faster. Cheaper. Predictive.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="glow-button bg-cyan-500 text-black font-bold py-3 px-8 rounded-md text-lg">
+                    Book a Demo
+                </button>
+                <button class="glow-button bg-transparent border-2 border-cyan-400 text-cyan-400 font-bold py-3 px-8 rounded-md text-lg">
+                    Start Free
+                </button>
+                <button class="glow-button bg-transparent border-2 border-purple-400 text-purple-400 font-bold py-3 px-8 rounded-md text-lg">
+                    Partner With Us
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <h3 class="text-cyan-400 text-2xl font-bold mb-4">OnSense.ai</h3>
+                    <p class="text-gray-400">The Brain Behind Every Machine</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">API</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Integrations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2023 OnSense.ai. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <span class="sr-only">Twitter</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <span class="sr-only">LinkedIn</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Three.js Background Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up Three.js scene
+            const container = document.getElementById('threejs-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            // Add floating particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 500;
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.8
+            });
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // Add floating equipment parts
+            const equipmentParts = [];
+            const partGeometry = new THREE.TorusGeometry(0.2, 0.05, 16, 32);
+            const partMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0x00ffff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.5
+            });
+            
+            for(let i = 0; i < 10; i++) {
+                const part = new THREE.Mesh(partGeometry, partMaterial);
+                part.position.x = (Math.random() - 0.5) * 10;
+                part.position.y = (Math.random() - 0.5) * 10;
+                part.position.z = (Math.random() - 0.5) * 10;
+                part.rotation.x = Math.random() * Math.PI;
+                part.rotation.y = Math.random() * Math.PI;
+                scene.add(part);
+                equipmentParts.push(part);
+            }
+
+            // Add digital circuit lines
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.3 });
+            for(let i = 0; i < 20; i++) {
+                const points = [];
+                points.push(new THREE.Vector3(
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10
+                ));
+                points.push(new THREE.Vector3(
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10
+                ));
+                
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                scene.add(line);
+            }
+
+            camera.position.z = 5;
+
+            // Mouse movement effect
+            let mouseX = 0;
+            let mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate particles and equipment parts
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.0005;
+                
+                equipmentParts.forEach(part => {
+                    part.rotation.x += 0.005;
+                    part.rotation.y += 0.005;
+                    
+                    // Add subtle floating movement
+                    part.position.x += Math.sin(Date.now() * 0.001 + part.position.y) * 0.001;
+                    part.position.y += Math.cos(Date.now() * 0.001 + part.position.x) * 0.001;
+                });
+                
+                // Camera movement based on mouse position
+                camera.position.x += (mouseX * 2 - camera.position.x) * 0.01;
+                camera.position.y += (mouseY * 2 - camera.position.y) * 0.01;
+                camera.lookAt(scene.position);
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Hero section animations
+            gsap.from("#hero-subtext", {
+                duration: 1,
+                opacity: 0,
+                y: 20,
+                delay: 0.5,
+                ease: "power2.out"
+            });
+            
+            // Problem cards animation
+            gsap.utils.toArray(".problem-card").forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 0.8,
+                    opacity: 0,
+                    y: 50,
+                    delay: i * 0.1,
+                    ease: "back.out(1.2)"
+                });
+            });
+            
+            // Solution cards animation
+            gsap.utils.toArray(".solution-card").forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 0.8,
+                    opacity: 0,
+                    y: 50,
+                    delay: i * 0.1,
+                    ease: "power2.out"
+                });
+            });
+            
+            // Process steps animation
+            gsap.utils.toArray(".process-step").forEach((step, i) => {
+                gsap.from(step, {
+                    scrollTrigger: {
+                        trigger: step,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 0.8,
+                    opacity: 0,
+                    y: 50,
+                    delay: i * 0.15,
+                    ease: "power2.out"
+                });
+            });
+            
+            // Counter animation
+            function animateCounters() {
+                const counters = document.querySelectorAll('.counter');
+                const speed = 200;
+                
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+                    
+                    if(count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(animateCounters, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                });
+            }
+            
+            ScrollTrigger.create({
+                trigger: ".stat-card",
+                start: "top 80%",
+                onEnter: animateCounters
+            });
+        });
+    </script>
+</body>
+</html>
