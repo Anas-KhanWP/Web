@@ -122,6 +122,29 @@
         .counter {
             font-variant-numeric: tabular-nums;
         }
+
+        .globe-container {
+          perspective: 1000px; /* Adds depth */
+          width: 300px;
+          height: 300px;
+          margin: 50px auto;
+        }
+    
+        .globe {
+          width: 100%;
+          height: 100%;
+          transform-style: preserve-3d;
+          animation: spinGlobe 8s linear infinite;
+        }
+    
+        @keyframes spinGlobe {
+          0% {
+            transform: rotateY(0deg) translate3d(17px, 21px, 12px);
+          }
+          100% {
+            transform: rotateY(360deg) translate3d(17px, 21px, 12px);
+          }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -393,9 +416,9 @@
                 </h2>
             </div>
             
-            <div class="map-container gradient-border mb-12">
+            <div class="globe-container map-container gradient-border mb-12">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Location_North_America.svg/1200px-Location_North_America.svg.png" alt="North America Map" class="w-full h-auto">
-                <div class="map-overlay"></div>
+                <div class="globe map-overlay"></div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
