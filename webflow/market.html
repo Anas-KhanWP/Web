@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnSense.ai - AI-Powered Equipment Maintenance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #00f0ff;
+            --secondary: #7b2dff;
+            --dark: #0a0a1a;
+            --darker: #050510;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--darker);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .hero-text {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+        
+        .glow {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+        }
+        
+        .glow:hover {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
+        }
+        
+        .gradient-border {
+            position: relative;
+            border: 1px solid transparent;
+            background-clip: padding-box;
+            border-radius: 0.5rem;
+        }
+        
+        .gradient-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            z-index: -1;
+            border-radius: 0.5rem;
+            opacity: 0.7;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 240, 255, 0.04);
+        }
+        
+        #threejs-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .fade-in {
+            opacity: 0;
+        }
+        
+        .step-line {
+            position: relative;
+        }
+        
+        .step-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            z-index: -1;
+        }
+        
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 240, 255, 0.1), rgba(123, 45, 255, 0.1));
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Three.js Background -->
+    <div id="threejs-container"></div>
+    
+    <!-- Navigation -->
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold text-white">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OnSense</span>.ai
+        </div>
+        <div class="hidden md:flex space-x-8">
+            <a href="#" class="text-gray-300 hover:text-white transition">Product</a>
+            <a href="#" class="text-gray-300 hover:text-white transition">Solutions</a>
+            <a href="#" class="text-gray-300 hover:text-white transition">Pricing</a>
+            <a href="#" class="text-gray-300 hover:text-white transition">Resources</a>
+            <a href="#" class="text-gray-300 hover:text-white transition">Company</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="px-4 py-2 text-sm font-medium text-white rounded-md">Login</button>
+            <button class="px-4 py-2 text-sm font-medium bg-gradient-to-r from-cyan-500 to-purple-600 rounded-md glow hover:opacity-90 transition">Get Started</button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center px-6">
+        <div class="text-center max-w-4xl mx-auto z-10">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 hero-text">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OnSense AI</span>
+            </h1>
+            <h2 class="text-3xl md:text-5xl font-bold mb-8 text-white">The Brain Behind Every Machine</h2>
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+                AI-powered system for faster, smarter repairs & predictive maintenance.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-lg font-semibold glow hover:opacity-90 transition">
+                    Watch How It Works
+                </button>
+                <button class="px-8 py-4 border border-cyan-400 rounded-lg text-lg font-semibold text-white hover:bg-cyan-400/10 transition">
+                    Request Demo
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Problem Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-darker to-dark">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    Repairs are still stuck in the 1990s
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Every breakdown starts from scratch. No data. No memory.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8">
+                <div class="gradient-border p-6 rounded-lg text-center fade-in">
+                    <div class="text-4xl mb-4">1</div>
+                    <h3 class="text-xl font-semibold mb-2">Machine Breaks</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center fade-in">
+                    <div class="text-4xl mb-4">2</div>
+                    <h3 class="text-xl font-semibold mb-2">Long Diagnosis</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center fade-in">
+                    <div class="text-4xl mb-4">3</div>
+                    <h3 class="text-xl font-semibold mb-2">Parts Ordered</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center fade-in">
+                    <div class="text-4xl mb-4">4</div>
+                    <h3 class="text-xl font-semibold mb-2">Time Lost</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center fade-in col-span-2 md:col-span-1">
+                    <div class="text-4xl mb-4">5</div>
+                    <h3 class="text-xl font-semibold mb-2">Machine Breaks Again</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Solution Section -->
+    <section class="py-20 px-6 bg-dark">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    Meet OnSense AI – A Smarter Way to Fix
+                </h2>
+            </div>
+            
+            <div class="relative py-12">
+                <div class="step-line flex flex-col md:flex-row justify-between items-center mb-12">
+                    <div class="gradient-border p-6 rounded-lg text-center mb-8 md:mb-0 w-full md:w-auto card-hover transition-all duration-300">
+                        <h3 class="text-xl font-semibold">Tenant</h3>
+                    </div>
+                    <div class="gradient-border p-6 rounded-lg text-center mb-8 md:mb-0 w-full md:w-auto card-hover transition-all duration-300">
+                        <h3 class="text-xl font-semibold">Property Manager</h3>
+                    </div>
+                    <div class="gradient-border p-6 rounded-lg text-center mb-8 md:mb-0 w-full md:w-auto card-hover transition-all duration-300">
+                        <h3 class="text-xl font-semibold">Technician</h3>
+                    </div>
+                    <div class="gradient-border p-6 rounded-lg text-center w-full md:w-auto card-hover transition-all duration-300">
+                        <h3 class="text-xl font-semibold">OEM/Part Store</h3>
+                    </div>
+                </div>
+                
+                <div class="text-center max-w-3xl mx-auto">
+                    <p class="text-xl text-gray-300">
+                        OnSense AI connects everyone. Diagnose early. Fix faster. Order the right parts. All powered by AI.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Trusted AI Power -->
+    <section class="py-20 px-6 bg-gradient-to-b from-dark to-darker">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    Built on 9 Years of Industry Data
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="gradient-border p-8 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-5xl font-bold mb-4 counter" data-target="1200000">0</div>
+                    <h3 class="text-xl font-semibold">Models</h3>
+                </div>
+                <div class="gradient-border p-8 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-5xl font-bold mb-4 counter" data-target="3600000">0</div>
+                    <h3 class="text-xl font-semibold">Exploded Diagrams</h3>
+                </div>
+                <div class="gradient-border p-8 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-5xl font-bold mb-4 counter" data-target="600000">0</div>
+                    <h3 class="text-xl font-semibold">Smart Manuals</h3>
+                </div>
+                <div class="gradient-border p-8 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-5xl font-bold mb-4 counter" data-target="1600000">0</div>
+                    <h3 class="text-xl font-semibold">Repair Parts</h3>
+                </div>
+                <div class="gradient-border p-8 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-5xl font-bold mb-4 counter" data-target="145">0</div>
+                    <h3 class="text-xl font-semibold">Brands</h3>
+                </div>
+                <div class="gradient-border p-8 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-5xl font-bold mb-4 counter" data-target="6500">0</div>
+                    <h3 class="text-xl font-semibold">Error Codes</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works -->
+    <section class="py-20 px-6 bg-dark">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    From Breakdown to Fix – In Minutes
+                </h2>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="gradient-border p-6 rounded-lg text-center mb-8 md:mb-0 w-full md:w-1/5 card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">1</div>
+                    <h3 class="text-xl font-semibold">User enters symptoms</h3>
+                </div>
+                <div class="text-2xl mx-4 mb-8 md:mb-0">→</div>
+                <div class="gradient-border p-6 rounded-lg text-center mb-8 md:mb-0 w-full md:w-1/5 card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">2</div>
+                    <h3 class="text-xl font-semibold">AI provides possible fix</h3>
+                </div>
+                <div class="text-2xl mx-4 mb-8 md:mb-0">→</div>
+                <div class="gradient-border p-6 rounded-lg text-center mb-8 md:mb-0 w-full md:w-1/5 card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">3</div>
+                    <h3 class="text-xl font-semibold">Suggests parts</h3>
+                </div>
+                <div class="text-2xl mx-4 mb-8 md:mb-0">→</div>
+                <div class="gradient-border p-6 rounded-lg text-center mb-8 md:mb-0 w-full md:w-1/5 card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">4</div>
+                    <h3 class="text-xl font-semibold">Order parts</h3>
+                </div>
+                <div class="text-2xl mx-4 mb-8 md:mb-0">→</div>
+                <div class="gradient-border p-6 rounded-lg text-center w-full md:w-1/5 card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">5</div>
+                    <h3 class="text-xl font-semibold">Technician comes or user DIYs</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Results & Stats -->
+    <section class="py-20 px-6 bg-gradient-to-b from-darker to-dark">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    Proven Results That Save Time & Money
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                        <div class="text-4xl font-bold mb-2 counter" data-target="657">0</div>
+                        <h3 class="text-lg font-semibold">% ROI</h3>
+                    </div>
+                    <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                        <div class="text-4xl font-bold mb-2 counter" data-target="83">0</div>
+                        <h3 class="text-lg font-semibold">% AI Accuracy</h3>
+                    </div>
+                    <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                        <div class="text-4xl font-bold mb-2 counter" data-target="2.2">0</div>
+                        <h3 class="text-lg font-semibold">x Technician Productivity</h3>
+                    </div>
+                    <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                        <div class="text-4xl font-bold mb-2 counter" data-target="66">0</div>
+                        <h3 class="text-lg font-semibold">% Savings on Repairs</h3>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 rounded-xl p-6">
+                    <canvas id="resultsChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Who Uses OnSense -->
+    <section class="py-20 px-6 bg-dark">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    Who Uses OnSense
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="gradient-border p-8 rounded-lg card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">🏠</div>
+                    <h3 class="text-xl font-semibold mb-4">Homeowners</h3>
+                    <p class="text-gray-300">"DIY guides, save $1000s, easy repairs"</p>
+                </div>
+                <div class="gradient-border p-8 rounded-lg card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">🏢</div>
+                    <h3 class="text-xl font-semibold mb-4">Property Managers</h3>
+                    <p class="text-gray-300">"Prevent downtime, fast fixes"</p>
+                </div>
+                <div class="gradient-border p-8 rounded-lg card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">👨‍🔧</div>
+                    <h3 class="text-xl font-semibold mb-4">Technicians</h3>
+                    <p class="text-gray-300">"Smart tools, better first-time fixes"</p>
+                </div>
+                <div class="gradient-border p-8 rounded-lg card-hover transition-all duration-300">
+                    <div class="text-4xl mb-4">🏭</div>
+                    <h3 class="text-xl font-semibold mb-4">Brands</h3>
+                    <p class="text-gray-300">"Boost customer loyalty and sales"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Market Opportunity -->
+    <section class="py-20 px-6 bg-gradient-to-b from-dark to-darker">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    A $1.7 Trillion Market. We're Already In.
+                </h2>
+            </div>
+            
+            <div class="map-container gradient-border mb-12">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Location_North_America.svg/1200px-Location_North_America.svg.png" alt="North America Map" class="w-full h-auto">
+                <div class="map-overlay"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="gradient-border p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2">TAM</h3>
+                    <p class="text-3xl font-semibold">$1.7T</p>
+                </div>
+                <div class="gradient-border p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2">SAM</h3>
+                    <p class="text-3xl font-semibold">$57B</p>
+                </div>
+                <div class="gradient-border p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2">SOM</h3>
+                    <p class="text-3xl font-semibold">$308M</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Proof & Pilots -->
+    <section class="py-20 px-6 bg-dark">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                    Already Creating Impact
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-4xl font-bold mb-2 counter" data-target="3000">0</div>
+                    <h3 class="text-lg font-semibold">Customers Served</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-4xl font-bold mb-2 counter" data-target="6">0</div>
+                    <h3 class="text-lg font-semibold">$M Sales Pipeline</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-4xl font-bold mb-2 counter" data-target="150">0</div>
+                    <h3 class="text-lg font-semibold">K Homes</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                    <div class="text-4xl font-bold mb-2 counter" data-target="1000">0</div>
+                    <h3 class="text-lg font-semibold">+ Technicians</h3>
+                </div>
+                <div class="gradient-border p-6 rounded-lg text-center card-hover transition-all duration-300">
+                    <h3 class="text-lg font-semibold">Enterprise Pilot with PartSelect.com</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Final CTA -->
+    <section class="py-32 px-6 bg-gradient-to-b from-darker to-cyan-900/20">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">
+                Ready to Keep the World Running?
+            </h2>
+            <p class="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+                Smarter repairs start with OnSense AI. Faster. Cheaper. Predictive.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-lg font-semibold glow hover:opacity-90 transition">
+                    Book a Demo
+                </button>
+                <button class="px-8 py-4 bg-white text-gray-900 rounded-lg text-lg font-semibold hover:bg-gray-100 transition">
+                    Start Free
+                </button>
+                <button class="px-8 py-4 border border-cyan-400 rounded-lg text-lg font-semibold text-white hover:bg-cyan-400/10 transition">
+                    Partner With Us
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-black">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OnSense</span>.ai
+                    </h3>
+                    <p class="text-gray-400">
+                        The AI platform that helps diagnose, fix, and maintain equipment.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">API</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Integrations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">
+                    © 2023 OnSense.ai. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Three.js Background
+        const container = document.getElementById('threejs-container');
+        
+        // Only initialize Three.js if container exists
+        if (container) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+            
+            // Add floating equipment parts
+            const geometry = new THREE.IcosahedronGeometry(0.5, 0);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x00f0ff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const parts = [];
+            for (let i = 0; i < 15; i++) {
+                const part = new THREE.Mesh(geometry, material);
+                part.position.x = Math.random() * 20 - 10;
+                part.position.y = Math.random() * 20 - 10;
+                part.position.z = Math.random() * 20 - 10;
+                part.scale.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+                scene.add(part);
+                parts.push(part);
+            }
+            
+            // Add digital nodes
+            const nodeGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+            const nodeMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0x7b2dff,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const nodes = [];
+            for (let i = 0; i < 30; i++) {
+                const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
+                node.position.x = Math.random() * 20 - 10;
+                node.position.y = Math.random() * 20 - 10;
+                node.position.z = Math.random() * 20 - 10;
+                scene.add(node);
+                nodes.push(node);
+            }
+            
+            // Add connecting lines
+            const lineMaterial = new THREE.LineBasicMaterial({ 
+                color: 0x00f0ff,
+                transparent: true,
+                opacity: 0.3
+            });
+            
+            for (let i = 0; i < 10; i++) {
+                const points = [];
+                for (let j = 0; j < 5; j++) {
+                    points.push(new THREE.Vector3(
+                        Math.random() * 20 - 10,
+                        Math.random() * 20 - 10,
+                        Math.random() * 20 - 10
+                    ));
+                }
+                
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                scene.add(line);
+            }
+            
+            camera.position.z = 5;
+            
+            // Mouse movement effect
+            document.addEventListener('mousemove', (event) => {
+                const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                camera.position.x = mouseX * 2;
+                camera.position.y = mouseY * 2;
+                camera.lookAt(scene.position);
+            });
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate parts
+                parts.forEach(part => {
+                    part.rotation.x += 0.01;
+                    part.rotation.y += 0.01;
+                });
+                
+                // Move nodes
+                nodes.forEach(node => {
+                    node.position.x += (Math.random() - 0.5) * 0.05;
+                    node.position.y += (Math.random() - 0.5) * 0.05;
+                    node.position.z += (Math.random() - 0.5) * 0.05;
+                    
+                    // Keep nodes within bounds
+                    if (node.position.x > 10) node.position.x = -10;
+                    if (node.position.x < -10) node.position.x = 10;
+                    if (node.position.y > 10) node.position.y = -10;
+                    if (node.position.y < -10) node.position.y = 10;
+                    if (node.position.z > 10) node.position.z = -10;
+                    if (node.position.z < -10) node.position.z = 10;
+                });
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Hero text animation
+        gsap.from(".hero-text", {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out"
+        });
+        
+        // Fade in sections
+        gsap.utils.toArray(".fade-in").forEach((section, i) => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                duration: 0.8,
+                opacity: 0,
+                y: 30,
+                ease: "power2.out",
+                delay: i * 0.1
+            });
+        });
+        
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const count = { value: 0 };
+            
+            gsap.to(count, {
+                value: target,
+                duration: 2,
+                scrollTrigger: {
+                    trigger: counter,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                onUpdate: () => {
+                    if (target % 1 === 0) {
+                        counter.textContent = Math.floor(count.value);
+                    } else {
+                        counter.textContent = count.value.toFixed(1);
+                    }
+                }
+            });
+        });
+        
+        // Card hover animations
+        const cards = document.querySelectorAll('.card-hover');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    duration: 0.3,
+                    scale: 1.05,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    duration: 0.3,
+                    scale: 1,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Results Chart
+        const ctx = document.getElementById('resultsChart').getContext('2d');
+        const resultsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [
+                    {
+                        label: 'AI Accuracy (%)',
+                        data: [65, 68, 72, 75, 77, 80, 83],
+                        borderColor: '#00f0ff',
+                        backgroundColor: 'rgba(0, 240, 255, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Technician Productivity (x)',
+                        data: [1.2, 1.4, 1.6, 1.8, 2.0, 2.1, 2.2],
+                        borderColor: '#7b2dff',
+                        backgroundColor: 'rgba(123, 45, 255, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                family: 'Inter'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#fff'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#fff'
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        radius: 4,
+                        hoverRadius: 6,
+                        backgroundColor: '#fff'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
