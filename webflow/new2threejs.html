@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnSense.ai - AI-Powered Equipment Maintenance Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #00a8ff;
+            --secondary: #00ff9d;
+            --accent: #7f8c8d;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .glow {
+            filter: drop-shadow(0 0 8px var(--primary));
+        }
+        
+        .circuit-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48cGF0aCBkPSJNIDAgMCBMIDAgNTAgTSA1MCAwIEwgNTAgNTAgTSAwIDAgTCA1MCAwIE0gMCA1MCBMIDUwIDUwIE0gMCAyNSBMIDUwIDI1IE0gMjUgMCBMIDI1IDUwIiBzdHJva2U9InJnYmEoMCwxNjgsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgLz48L3N2Zz4=');
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .tech-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 168, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 168, 255, 0.3);
+            border-color: var(--primary);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            gap: 10px;
+        }
+        
+        .dashboard-item {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-item:hover {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--primary);
+        }
+        
+        .animated-counter {
+            transition: all 0.5s ease-out;
+        }
+        
+        .ar-overlay {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ar-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 255, 157, 0.1) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .ar-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgwLDE2OCwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 168, 255, 0.8) 0%, rgba(0, 168, 255, 0) 70%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+        
+        .btn-glow:hover::before {
+            transform: scale(1);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.3);
+        }
+        
+        .map-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--secondary);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: mapPointPulse 2s infinite;
+        }
+        
+        @keyframes mapPointPulse {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        
+        .data-flow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .data-flow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            animation: dataFlow 3s linear infinite;
+        }
+        
+        @keyframes dataFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .ai-brain {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+        
+        .ai-brain-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0) 70%);
+            border-radius: 50%;
+            animation: brainPulse 3s infinite alternate;
+        }
+        
+        @keyframes brainPulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        .neuron {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--secondary);
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+        
+        .neuron-connection {
+            position: absolute;
+            height: 1px;
+            background: rgba(0, 255, 157, 0.5);
+            transform-origin: left center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Circuit Overlay -->
+    <div class="circuit-overlay fixed inset-0 z-0"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-opacity-90 backdrop-filter backdrop-blur-lg bg-gray-900 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold gradient-text">OnSense.ai</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#solution" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-800">Solution</a>
+                    <a href="#demo" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-800">Demo</a>
+                    <a href="#impact" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-800">Impact</a>
+                    <a href="#market" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-800">Market</a>
+                    <a href="#technician" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-800">Technician Experience</a>
+                </div>
+                <div class="flex items-center">
+                    <button class="btn-glow inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+                        Request Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl sm:leading-none lg:text-6xl xl:text-7xl mb-6">
+                        <span class="block">The <span class="gradient-text">AI Brain</span></span>
+                        <span class="block">Behind Equipment</span>
+                        <span class="block">Reliability</span>
+                    </h1>
+                    <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        Transform maintenance operations with our AI-powered ecosystem that predicts, diagnoses, and resolves equipment issues before they impact your business.
+                    </p>
+                    <div class="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
+                        <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                            <button class="btn-glow px-6 py-4 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all relative overflow-hidden">
+                                Get Started
+                            </button>
+                            <button class="px-6 py-4 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all">
+                                Watch Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+                    <div class="ai-brain mx-auto">
+                        <div class="ai-brain-inner"></div>
+                        <!-- Neurons and connections will be added via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Problem Section -->
+    <section id="problem" class="py-20 bg-gray-900 bg-opacity-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    The <span class="gradient-text">Costly Cycle</span> of Equipment Failure
+                </h2>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-300 sm:mt-4">
+                    Traditional maintenance approaches create a loop of inefficiency that drains resources and impacts operations.
+                </p>
+            </div>
+            
+            <div class="relative mt-12">
+                <div class="timeline-item relative pl-8 pb-12">
+                    <div class="timeline-dot"></div>
+                    <div class="tech-card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">Equipment Failure</h3>
+                        <p class="text-gray-300">Unexpected breakdowns disrupt operations and create emergency situations.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item relative pl-8 pb-12">
+                    <div class="timeline-dot"></div>
+                    <div class="tech-card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">Diagnosis Delay</h3>
+                        <p class="text-gray-300">Technicians spend hours troubleshooting without the right information.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item relative pl-8 pb-12">
+                    <div class="timeline-dot"></div>
+                    <div class="tech-card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">Truck Roll</h3>
+                        <p class="text-gray-300">Dispatch of technicians to site, often without proper parts or tools.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item relative pl-8 pb-12">
+                    <div class="timeline-dot"></div>
+                    <div class="tech-card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">Temporary Fix</h3>
+                        <p class="text-gray-300">Band-aid solutions that don't address root causes.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item relative pl-8">
+                    <div class="timeline-dot"></div>
+                    <div class="tech-card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">Repeat Cycle</h3>
+                        <p class="text-gray-300">The problem resurfaces, restarting the costly process.</p>
+                    </div>
+                </div>
+                
+                <div class="absolute left-0 top-0 h-full w-0.5 bg-gradient-to-b from-blue-500 to-green-500 ml-4"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Solution Section -->
+    <section id="solution" class="py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    The <span class="gradient-text">OnSense.ai</span> Solution
+                </h2>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-300 sm:mt-4">
+                    Our AI-powered ecosystem connects all stakeholders in the maintenance workflow with intelligent insights.
+                </p>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="tech-card p-6 rounded-lg transform transition-all hover:-translate-y-2">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-900 text-white mb-4">
+                        <i class="fas fa-brain text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-white mb-2">Predictive AI</h3>
+                    <p class="text-gray-300">Machine learning models identify issues before they cause downtime.</p>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg transform transition-all hover:-translate-y-2">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-900 text-white mb-4">
+                        <i class="fas fa-project-diagram text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-white mb-2">Connected Ecosystem</h3>
+                    <p class="text-gray-300">Seamless integration between tenants, managers, OEMs and technicians.</p>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg transform transition-all hover:-translate-y-2">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-900 text-white mb-4">
+                        <i class="fas fa-tools text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-white mb-2">Smart Diagnostics</h3>
+                    <p class="text-gray-300">AI-assisted troubleshooting with 83% accuracy in first-time fixes.</p>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg transform transition-all hover:-translate-y-2">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-900 text-white mb-4">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-white mb-2">Performance Analytics</h3>
+                    <p class="text-gray-300">Real-time insights into equipment health and maintenance ROI.</p>
+                </div>
+            </div>
+            
+            <div class="mt-16 data-flow bg-gray-800 rounded-xl p-8 relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-gray-900 bg-opacity-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-4">Tenants</h3>
+                        <p class="text-gray-300">Report issues through intuitive interfaces with AI-guided problem description.</p>
+                    </div>
+                    <div class="bg-gray-900 bg-opacity-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-4">Property Managers</h3>
+                        <p class="text-gray-300">Receive prioritized, AI-analyzed work orders with predicted urgency and cost.</p>
+                    </div>
+                    <div class="bg-gray-900 bg-opacity-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-4">Technicians</h3>
+                        <p class="text-gray-300">Access AI-powered diagnostics, parts lookup, and repair guidance on-site.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Demo Section -->
+    <section id="demo" class="py-20 bg-gray-900 bg-opacity-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    <span class="gradient-text">AI-Powered</span> Maintenance Workflow
+                </h2>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-300 sm:mt-4">
+                    See how OnSense.ai transforms the maintenance experience for all stakeholders.
+                </p>
+            </div>
+            
+            <div class="mt-12 ar-overlay rounded-xl overflow-hidden">
+                <div class="dashboard-grid h-96 w-full">
+                    <div class="dashboard-item col-span-4 row-span-3 p-4">
+                        <h4 class="text-sm font-semibold text-gray-300 mb-2">Equipment Health</h4>
+                        <div class="h-full bg-gray-800 rounded-lg"></div>
+                    </div>
+                    <div class="dashboard-item col-span-4 row-span-3 p-4">
+                        <h4 class="text-sm font-semibold text-gray-300 mb-2">Fault Prediction</h4>
+                        <div class="h-full bg-gray-800 rounded-lg"></div>
+                    </div>
+                    <div class="dashboard-item col-span-4 row-span-3 p-4">
+                        <h4 class="text-sm font-semibold text-gray-300 mb-2">Parts Inventory</h4>
+                        <div class="h-full bg-gray-800 rounded-lg"></div>
+                    </div>
+                    <div class="dashboard-item col-span-6 row-span-4 p-4">
+                        <h4 class="text-sm font-semibold text-gray-300 mb-2">Diagnostic Results</h4>
+                        <div class="h-full bg-gray-800 rounded-lg"></div>
+                    </div>
+                    <div class="dashboard-item col-span-6 row-span-4 p-4">
+                        <h4 class="text-sm font-semibold text-gray-300 mb-2">Repair Guidance</h4>
+                        <div class="h-full bg-gray-800 rounded-lg"></div>
+                    </div>
+                    <div class="dashboard-item col-span-12 row-span-2 p-4">
+                        <h4 class="text-sm font-semibold text-gray-300 mb-2">Work Order Status</h4>
+                        <div class="h-full bg-gray-800 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white mr-4">
+                            <span class="text-xl">1</span>
+                        </div>
+                        <h3 class="text-lg font-medium text-white">AI Triage</h3>
+                    </div>
+                    <p class="text-gray-300">Our system automatically categorizes and prioritizes incoming maintenance requests using natural language processing and historical data.</p>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-green-900 text-white mr-4">
+                            <span class="text-xl">2</span>
+                        </div>
+                        <h3 class="text-lg font-medium text-white">Instant Parts Lookup</h3>
+                    </div>
+                    <p class="text-gray-300">Integrated with OEM databases to instantly identify required parts, local availability, and alternative options.</p>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white mr-4">
+                            <span class="text-xl">3</span>
+                        </div>
+                        <h3 class="text-lg font-medium text-white">Predictive Diagnostics</h3>
+                    </div>
+                    <p class="text-gray-300">Machine learning models analyze equipment data patterns to predict failures before they occur, with 83% accuracy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Impact Section -->
+    <section id="impact" class="py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    <span class="gradient-text">Measurable</span> Business Impact
+                </h2>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-300 sm:mt-4">
+                    OnSense.ai delivers tangible results that transform maintenance operations.
+                </p>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="tech-card p-8 rounded-lg text-center">
+                    <div class="text-5xl font-bold text-white mb-4 animated-counter" data-target="657">0</div>
+                    <h3 class="text-xl font-medium text-white mb-2">% ROI</h3>
+                    <p class="text-gray-300">Average return on investment across our customer base</p>
+                </div>
+                
+                <div class="tech-card p-8 rounded-lg text-center">
+                    <div class="text-5xl font-bold text-white mb-4 animated-counter" data-target="83">0</div>
+                    <h3 class="text-xl font-medium text-white mb-2">% First-Time Fix Rate</h3>
+                    <p class="text-gray-300">AI-powered diagnostics improve technician accuracy</p>
+                </div>
+                
+                <div class="tech-card p-8 rounded-lg text-center">
+                    <div class="text-5xl font-bold text-white mb-4 animated-counter" data-target="32">0</div>
+                    <h3 class="text-xl font-medium text-white mb-2">% MoM Accuracy Growth</h3>
+                    <p class="text-gray-300">Our models continuously learn and improve</p>
+                </div>
+            </div>
+            
+            <div class="mt-16 bg-gray-900 bg-opacity-50 rounded-xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Before OnSense.ai</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-red-500 mr-3 mt-1">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                                <p class="text-gray-300">Reactive maintenance approach</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-red-500 mr-3 mt-1">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                                <p class="text-gray-300">High emergency service costs</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-red-500 mr-3 mt-1">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                                <p class="text-gray-300">Frequent repeat issues</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-4">With OnSense.ai</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-green-500 mr-3 mt-1">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-300">Predictive maintenance planning</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-green-500 mr-3 mt-1">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-300">Reduced emergency dispatches</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-green-500 mr-3 mt-1">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-300">Long-term reliability improvements</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Market Section -->
+    <section id="market" class="py-20 bg-gray-900 bg-opacity-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    <span class="gradient-text">Market</span> Opportunity
+                </h2>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-300 sm:mt-4">
+                    OnSense.ai addresses a massive and growing need in equipment maintenance.
+                </p>
+            </div>
+            
+            <div class="mt-12 relative h-96 bg-gray-800 rounded-xl overflow-hidden">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-full h-full">
+                        <!-- Map points will be added via JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="tech-card p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold text-white mb-4">$308M</h3>
+                    <h4 class="text-lg font-medium text-gray-300 mb-2">Serviceable Obtainable Market (SOM)</h4>
+                    <p class="text-gray-300">Immediate addressable market in our initial target segments.</p>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold text-white mb-4">$57B</h3>
+                    <h4 class="text-lg font-medium text-gray-300 mb-2">Serviceable Available Market (SAM)</h4>
+                    <p class="text-gray-300">Total maintenance spend in our target industries.</p>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold text-white mb-4">$1.7T</h3>
+                    <h4 class="text-lg font-medium text-gray-300 mb-2">Total Addressable Market (TAM)</h4>
+                    <p class="text-gray-300">Global equipment maintenance and repair spending.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Technician Experience -->
+    <section id="technician" class="py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    <span class="gradient-text">Technician</span> Experience
+                </h2>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-300 sm:mt-4">
+                    Empower your technicians with AI-powered tools that make them more efficient and effective.
+                </p>
+            </div>
+            
+            <div class="mt-12 ar-overlay rounded-xl overflow-hidden p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Augmented Reality Diagnostics</h3>
+                        <p class="text-gray-300 mb-6">Technicians can scan equipment with their smartphone camera to instantly access repair manuals, parts diagrams, and step-by-step guidance overlaid on the real-world view.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-blue-500 mr-3 mt-1">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <p class="text-gray-300"><span class="font-medium text-white">Scan</span> equipment QR codes or use image recognition</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-green-500 mr-3 mt-1">
+                                    <i class="fas fa-list"></i>
+                                </div>
+                                <p class="text-gray-300"><span class="font-medium text-white">List</span> of potential issues ranked by probability</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-blue-500 mr-3 mt-1">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <p class="text-gray-300"><span class="font-medium text-white">Locate</span> the problem area with AR overlays</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-green-500 mr-3 mt-1">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <p class="text-gray-300"><span class="font-medium text-white">Order</span> required parts directly from the interface</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative h-80 bg-gray-800 rounded-lg flex items-center justify-center">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-48 h-48 bg-gray-700 rounded-full flex items-center justify-center">
+                                <i class="fas fa-mobile-alt text-5xl text-gray-500"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="tech-card p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-white mb-4">Technician Productivity</h3>
+                    <p class="text-gray-300 mb-4">OnSense.ai increases technician productivity by 2.2x by reducing diagnostic time and eliminating unnecessary truck rolls.</p>
+                    <div class="w-full bg-gray-800 rounded-full h-4">
+                        <div class="bg-gradient-to-r from-blue-500 to-green-500 h-4 rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+                
+                <div class="tech-card p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-white mb-4">First-Time Fix Rate</h3>
+                    <p class="text-gray-300 mb-4">Our AI diagnostics improve first-time fix rates from industry average of 45% to 83%.</p>
+                    <div class="w-full bg-gray-800 rounded-full h-4">
+                        <div class="bg-gradient-to-r from-blue-500 to-green-500 h-4 rounded-full" style="width: 83%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-900 to-green-900 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="text-3xl font-extrabold text-white sm:text-4xl mb-6">
+                Keep the World Running with <span class="gradient-text">OnSense.ai</span>
+            </h2>
+            <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-200 sm:mt-4 mb-8">
+                Transform your maintenance operations with AI-powered intelligence.
+            </p>
+            <button class="btn-glow inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all relative overflow-hidden">
+                Request Demo
+                <svg class="ml-3 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Demo</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Case Studies</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">API</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Connect</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Twitter</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">LinkedIn</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2023 OnSense.ai. All rights reserved.</p>
+                <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Animate elements on scroll
+        gsap.utils.toArray('.tech-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                delay: i * 0.1
+            });
+        });
+        
+        // Animated counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.animated-counter');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        }
+        
+        // Start counters when section is in view
+        ScrollTrigger.create({
+            trigger: "#impact",
+            start: "top center",
+            onEnter: animateCounters
+        });
+        
+        // Create AI brain neurons and connections
+        function createAIBrain() {
+            const brain = document.querySelector('.ai-brain');
+            const neurons = [];
+            const connections = [];
+            
+            // Create neurons
+            for (let i = 0; i < 30; i++) {
+                const neuron = document.createElement('div');
+                neuron.className = 'neuron';
+                
+                // Random position within brain
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 100;
+                const x = 150 + Math.cos(angle) * distance;
+                const y = 150 + Math.sin(angle) * distance;
+                
+                neuron.style.left = `${x}px`;
+                neuron.style.top = `${y}px`;
+                
+                brain.appendChild(neuron);
+                neurons.push({ element: neuron, x, y });
+                
+                // Make neurons pulse randomly
+                gsap.to(neuron, {
+                    scale: 1.5,
+                    opacity: 1,
+                    duration: 0.5,
+                    repeat: -1,
+                    yoyo: true,
+                    delay: Math.random() * 2
+                });
+            }
+            
+            // Create connections between neurons
+            for (let i = 0; i < neurons.length; i++) {
+                for (let j = i + 1; j < neurons.length; j++) {
+                    // Only connect some neurons
+                    if (Math.random() > 0.7) {
+                        const neuron1 = neurons[i];
+                        const neuron2 = neurons[j];
+                        
+                        const dx = neuron2.x - neuron1.x;
+                        const dy = neuron2.y - neuron1.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 150) {
+                            const angle = Math.atan2(dy, dx);
+                            
+                            const connection = document.createElement('div');
+                            connection.className = 'neuron-connection';
+                            connection.style.left = `${neuron1.x}px`;
+                            connection.style.top = `${neuron1.y}px`;
+                            connection.style.width = `${distance}px`;
+                            connection.style.transform = `rotate(${angle}rad)`;
+                            
+                            brain.appendChild(connection);
+                            connections.push(connection);
+                            
+                            // Animate connection
+                            gsap.to(connection, {
+                                opacity: 0.3 + Math.random() * 0.3,
+                                duration: 1 + Math.random(),
+                                repeat: -1,
+                                yoyo: true
+                            });
+                        }
+                    }
+                }
+            }
+            
+            // Make brain interactive
+            brain.addEventListener('mousemove', (e) => {
+                const rect = brain.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                neurons.forEach(neuron => {
+                    const dx = neuron.x - x;
+                    const dy = neuron.y - y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        const force = (100 - distance) / 100;
+                        const angle = Math.atan2(dy, dx);
+                        
+                        gsap.to(neuron.element, {
+                            x: `+=${Math.cos(angle) * force * 5}`,
+                            y: `+=${Math.sin(angle) * force * 5}`,
+                            duration: 0.5
+                        });
+                    }
+                });
+            });
+        }
+        
+        // Create map points
+        function createMapPoints() {
+            const map = document.querySelector('#market .relative.w-full.h-full');
+            
+            // US cities
+            const usCities = [
+                { name: 'New York', x: '75%', y: '25%' },
+                { name: 'Chicago', x: '55%', y: '35%' },
+                { name: 'Los Angeles', x: '20%', y: '45%' },
+                { name: 'Houston', x: '45%', y: '55%' },
+                { name: 'Miami', x: '65%', y: '65%' }
+            ];
+            
+            // Canada cities
+            const canadaCities = [
+                { name: 'Toronto', x: '70%', y: '20%' },
+                { name: 'Montreal', x: '75%', y: '25%' },
+                { name: 'Vancouver', x: '15%', y: '15%' },
+                { name: 'Calgary', x: '35%', y: '20%' }
+            ];
+            
+            // Create points with different timing
+            usCities.forEach((city, i) => {
+                const point = document.createElement('div');
+                point.className = 'map-point';
+                point.style.left = city.x;
+                point.style.top = city.y;
+                point.style.animationDelay = `${i * 0.5}s`;
+                map.appendChild(point);
+            });
+            
+            canadaCities.forEach((city, i) => {
+                const point = document.createElement('div');
+                point.className = 'map-point';
+                point.style.left = city.x;
+                point.style.top = city.y;
+                point.style.animationDelay = `${i * 0.5 + 0.25}s`;
+                map.appendChild(point);
+            });
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            createAIBrain();
+            createMapPoints();
+            
+            // Add hover effects to buttons
+            document.querySelectorAll('.btn-glow').forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    gsap.to(button, {
+                        boxShadow: '0 0 20px rgba(0, 168, 255, 0.7)',
+                        duration: 0.3
+                    });
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    gsap.to(button, {
+                        boxShadow: 'none',
+                        duration: 0.3
+                    });
+                });
+            });
+            
+            // Add hover effects to tech cards
+            document.querySelectorAll('.tech-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        borderColor: 'rgba(0, 168, 255, 0.5)',
+                        duration: 0.3
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        borderColor: 'rgba(0, 168, 255, 0.2)',
+                        duration: 0.3
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
