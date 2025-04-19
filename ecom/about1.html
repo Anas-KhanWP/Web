@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SunWave | Infrared Heating Experts Worldwide</title>
+    <meta name="description" content="Explore SunWave's global reach, organic IR tech, certifications, health benefits, and seamless heating for modern, conscious living.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .animate-section {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #f97316, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .health-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .health-icon:hover {
+            transform: scale(1.1);
+            color: #f97316;
+        }
+        
+        .certification-badge {
+            transition: all 0.3s ease;
+        }
+        
+        .certification-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .video-placeholder {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-placeholder::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .map-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #f97316;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .map-point::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #f97316;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            opacity: 0.7;
+        }
+        
+        .panel-illustration {
+            transition: all 0.5s ease;
+        }
+        
+        .panel-illustration:hover {
+            transform: perspective(1000px) rotateY(10deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold gradient-text">SunWave</span>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#" class="border-orange-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">About</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Products</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Technology</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative bg-gradient-to-br from-blue-900 to-gray-900 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-50">
+            <div class="absolute inset-0 bg-gradient-to-br from-orange-500 to-pink-500 mix-blend-overlay"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+            <div class="animate-section opacity-0">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                    <span class="block">Innovation Rooted</span>
+                    <span class="block gradient-text">in Purpose</span>
+                </h1>
+                <p class="mt-6 max-w-3xl text-xl text-gray-300">
+                    Redefining heating in the age of sustainability with infrared technology that's healthy, efficient, and beautiful.
+                </p>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </header>
+
+    <!-- Global Reach Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="animate-section opacity-0 mb-12 lg:mb-0">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <span class="block">Global Reach,</span>
+                        <span class="block gradient-text">Local Focus</span>
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-600">
+                        From Europe to the USA – Now in Sweden. With presence in over 17 countries, SunWave continues to lead the transition toward sustainable heating worldwide.
+                    </p>
+                    <p class="mt-4 text-gray-600">
+                        Our systems are already trusted in residential, commercial, and institutional settings across Germany, Italy, Belgium, Greece, the USA, and beyond. Now, with Sweden as our newest market, we lay the foundation for smarter, greener living in the heart of Scandinavia, where sustainability is a way of life.
+                    </p>
+                </div>
+                <div class="animate-section opacity-0 relative">
+                    <div class="bg-gray-100 rounded-xl p-4 shadow-lg">
+                        <div class="relative h-96 w-full">
+                            <img src="https://mapsvg.com/static/maps/continents/world.svg" alt="World Map" class="h-full w-full object-contain">
+                            <!-- Map points -->
+                            <div class="map-point" style="top: 30%; left: 50%;"></div>
+                            <div class="map-point" style="top: 35%; left: 55%;"></div>
+                            <div class="map-point" style="top: 40%; left: 48%;"></div>
+                            <div class="map-point" style="top: 38%; left: 60%;"></div>
+                            <div class="map-point" style="top: 45%; left: 20%;"></div>
+                            <div class="map-point" style="top: 32%; left: 45%;"></div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                                <svg class="-ml-1 mr-1.5 h-2 w-2 text-orange-400" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                                Now in Sweden
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Science of Infrared Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-section opacity-0">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    <span class="block">The Science of</span>
+                    <span class="block gradient-text">Infrared Heating</span>
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+                    Natural Heat, Engineered for Precision
+                </p>
+            </div>
+            
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="animate-section opacity-0 mb-12 lg:mb-0">
+                    <div class="panel-illustration relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-orange-400 to-pink-500 rounded-xl opacity-20 blur"></div>
+                        <div class="relative bg-white rounded-xl shadow-xl overflow-hidden">
+                            <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                <div class="w-3/4 h-40 bg-gray-300 rounded-lg relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-orange-100 to-orange-300 opacity-70"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center">
+                                            <i class="fas fa-sun text-orange-500 text-2xl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-400 to-pink-500"></div>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-medium text-gray-900">SunWave Infrared Panel</h3>
+                                <p class="mt-2 text-sm text-gray-600">Far-infrared rays for gentle, penetrating warmth</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="animate-section opacity-0">
+                    <p class="text-gray-600">
+                        SunWave uses far-infrared rays, a form of electromagnetic radiation that transfers heat directly to objects, walls, and bodies, not the air. It's the same type of warmth we receive from sunlight—gentle, penetrating, and effective.
+                    </p>
+                    <div class="mt-8">
+                        <div class="flex items-start mb-6">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-md bg-orange-500 text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-base font-medium text-gray-900">Even distribution of heat</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start mb-6">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-md bg-orange-500 text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-base font-medium text-gray-900">No air movement → No dust or allergens circulation</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start mb-6">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-md bg-orange-500 text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-base font-medium text-gray-900">Long-lasting warmth with minimal energy use</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-md bg-orange-500 text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-base font-medium text-gray-900">100% silent operation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 animate-section opacity-0">
+                <h3 class="text-xl font-medium text-gray-900 text-center mb-6">Infrared heating is ideal for:</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                        <div class="mx-auto h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-bed text-orange-500"></i>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Bedrooms</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                        <div class="mx-auto h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-hospital text-orange-500"></i>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Clinics</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                        <div class="mx-auto h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-spa text-orange-500"></i>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Yoga/Pilates Studios</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                        <div class="mx-auto h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-building text-orange-500"></i>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Open workspaces</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safe by Design Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-section opacity-0">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    <span class="block">Safe by Design –</span>
+                    <span class="block gradient-text">100% Organic. Zero Emissions.</span>
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+                    No Hidden Risks. Only Visible Results.
+                </p>
+            </div>
+            
+            <div class="animate-section opacity-0">
+                <div class="bg-gradient-to-r from-orange-50 to-blue-50 rounded-2xl p-8 shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Verified by Europe's Most Trusted Institutions</h3>
+                    <p class="text-gray-600 mb-8">
+                        SunWave panels meet the highest standards of safety, sustainability, and efficiency—so you can install with confidence. Every SunWave panel is built with a patented magnetocaloric paste made from 100% organic materials—non-flammable, non-toxic, and recyclable. There are no carbon components, no fumes, no coils, and no EMF radiation.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div class="certification-badge bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="mx-auto h-16 w-16 mb-2 flex items-center justify-center">
+                                <i class="fas fa-certificate text-blue-500 text-4xl"></i>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900">CE Certified</p>
+                            <p class="text-xs text-gray-500">EU safety & health</p>
+                        </div>
+                        <div class="certification-badge bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="mx-auto h-16 w-16 mb-2 flex items-center justify-center">
+                                <i class="fas fa-leaf text-green-500 text-4xl"></i>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900">BSRIA</p>
+                            <p class="text-xs text-gray-500">80% less energy</p>
+                        </div>
+                        <div class="certification-badge bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="mx-auto h-16 w-16 mb-2 flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-purple-500 text-4xl"></i>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900">ISO 9001, 14001</p>
+                            <p class="text-xs text-gray-500">Quality & environment</p>
+                        </div>
+                        <div class="certification-badge bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="mx-auto h-16 w-16 mb-2 flex items-center justify-center">
+                                <i class="fas fa-flask text-red-500 text-4xl"></i>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900">Fraunhofer</p>
+                            <p class="text-xs text-gray-500">No emissions</p>
+                        </div>
+                        <div class="certification-badge bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="mx-auto h-16 w-16 mb-2 flex items-center justify-center">
+                                <i class="fas fa-check-circle text-yellow-500 text-4xl"></i>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900">DEKRA</p>
+                            <p class="text-xs text-gray-500">Quality & Safety</p>
+                        </div>
+                        <div class="certification-badge bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="mx-auto h-16 w-16 mb-2 flex items-center justify-center">
+                                <i class="fas fa-heartbeat text-pink-500 text-4xl"></i>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900">Built for</p>
+                            <p class="text-xs text-gray-500">Sensitive environments</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Built-In Wellness Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="animate-section opacity-0 mb-12 lg:mb-0">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <span class="block">Built-In Wellness</span>
+                        <span class="block gradient-text">Heating That Supports</span>
+                    </h2>
+                    <p class="mt-4 text-gray-600">
+                        SunWave panels contribute to a healthier indoor environment. By heating surfaces rather than circulating hot air, they eliminate dust movement, dry air, and combustion risks—all of which are common triggers for allergies, respiratory problems, and skin irritation.
+                    </p>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="health-icon flex items-center justify-center h-10 w-10 rounded-full bg-orange-100 text-orange-500">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Promotes blood circulation</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="health-icon flex items-center justify-center h-10 w-10 rounded-full bg-orange-100 text-orange-500">
+                                    <i class="fas fa-bone"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Reduces joint & muscle stiffness</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="health-icon flex items-center justify-center h-10 w-10 rounded-full bg-orange-100 text-orange-500">
+                                    <i class="fas fa-moon"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Supports deeper relaxation and sleep</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="health-icon flex items-center justify-center h-10 w-10 rounded-full bg-orange-100 text-orange-500">
+                                    <i class="fas fa-lungs"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Ideal for asthma or allergy sensitivities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="animate-section opacity-0">
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">A better climate for:</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <i class="fas fa-wheelchair text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-gray-900">Elderly care facilities</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                                        <i class="fas fa-allergies text-green-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-gray-900">Allergy sufferers</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
+                                        <i class="fas fa-running text-purple-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-gray-900">Active lifestyles</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">
+                                        <i class="fas fa-home text-pink-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-gray-900">Mindful homes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-quote-left text-gray-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-600 italic">"After switching to SunWave, my allergy symptoms improved significantly. The air feels cleaner and fresher."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Made for Real Life Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-section opacity-0">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    <span class="block">Made for Real Life –</span>
+                    <span class="block gradient-text">Anywhere, Anytime</span>
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+                    No Moving Parts. No Noise. No Maintenance.
+                </p>
+            </div>
+            
+            <div class="animate-section opacity-0">
+                <div class="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-8 shadow-sm">
+                    <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                        <div>
+                            <p class="text-gray-600 mb-6">
+                                SunWave panels are designed for long-term simplicity and complete independence from plumbing, ventilation, or combustible fuels. Once installed, they require zero maintenance, no filters, no parts replacement, and no periodic servicing. Simply mount them on your wall or ceiling and plug them in.
+                            </p>
+                            <div class="flex items-center mb-4">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <i class="fas fa-plug text-orange-500"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Plug-and-play installation</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <i class="fas fa-cogs text-orange-500"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">No moving parts to wear out</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <i class="fas fa-broom text-orange-500"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">No cleaning or maintenance needed</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 lg:mt-0">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Whether you're renovating an apartment or building new, SunWave fits:</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white rounded-lg p-3 shadow-sm text-center">
+                                    <i class="fas fa-home text-blue-500 text-2xl mb-2"></i>
+                                    <p class="text-xs font-medium text-gray-900">Remote homes</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 shadow-sm text-center">
+                                    <i class="fas fa-building text-green-500 text-2xl mb-2"></i>
+                                    <p class="text-xs font-medium text-gray-900">Rental units</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 shadow-sm text-center">
+                                    <i class="fas fa-briefcase text-purple-500 text-2xl mb-2"></i>
+                                    <p class="text-xs font-medium text-gray-900">Offices</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 shadow-sm text-center">
+                                    <i class="fas fa-hammer text-yellow-500 text-2xl mb-2"></i>
+                                    <p class="text-xs font-medium text-gray-900">Renovations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scandinavian Comfort Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-900 to-blue-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="animate-section opacity-0 mb-12 lg:mb-0">
+                    <h2 class="text-3xl font-extrabold sm:text-4xl">
+                        <span class="block">The Next Chapter of</span>
+                        <span class="block gradient-text">Scandinavian Comfort</span>
+                    </h2>
+                    <p class="mt-4 text-gray-300">
+                        Swedish Precision Meets European Innovation. At SunWave, we believe that warmth should never come at the cost of health, aesthetics, or the environment. Our launch in Sweden represents more than expansion—it's the convergence of design excellence, climate responsibility, and smart living.
+                    </p>
+                    <p class="mt-4 text-gray-300">
+                        We're not just here to heat rooms—we're here to elevate how people live in them.
+                    </p>
+                </div>
+                <div class="animate-section opacity-0">
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                        <div class="h-64 bg-gradient-to-r from-gray-100 to-gray-200 flex items-center justify-center">
+                            <div class="relative w-full h-full">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="w-3/4 h-40 bg-gray-300 rounded-lg relative overflow-hidden">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300"></div>
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <div class="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center">
+                                                <i class="fas fa-sun text-gray-400 text-2xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-gray-400 to-gray-500"></div>
+                                    </div>
+                                </div>
+                                <div class="absolute top-4 right-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Scandinavian Edition
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900">Function That Blends with Design</h3>
+                            <p class="mt-2 text-sm text-gray-600">SunWave panels do more than heat—they elevate interiors. Designed to adapt to residential, commercial, and wellness spaces alike.</p>
+                            
+                            <div class="mt-4">
+                                <h4 class="text-sm font-medium text-gray-900 mb-2">Common Applications:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                        Boutique hotels
+                                    </span>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Yoga studios
+                                    </span>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                        Gyms
+                                    </span>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Creative studios
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center animate-section opacity-0">
+                <div class="mx-auto h-24 w-24 rounded-full bg-gradient-to-r from-orange-400 to-pink-500 flex items-center justify-center mb-6 mx-auto">
+                    <i class="fas fa-lightbulb text-white text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    <span class="block">More Than a Brand—</span>
+                    <span class="block gradient-text">A Vision for Better Living</span>
+                </h2>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-gray-600">
+                    Redefining Heating in the Age of Sustainability. At SunWave, we don't just sell panels—we deliver a future-forward approach to comfort. Our vision is to help every home and workspace reduce its energy consumption, eliminate emissions, and move toward a carbon-neutral lifestyle without sacrificing aesthetics, safety, or wellbeing.
+                </p>
+                <div class="mt-8 max-w-2xl mx-auto bg-gradient-to-r from-orange-50 to-blue-50 rounded-lg p-6">
+                    <p class="text-xl font-medium text-gray-900 italic">
+                        "Innovation Made Simple. Comfort Made Smarter."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 animate-section opacity-0">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    <span class="block">Watch the</span>
+                    <span class="block gradient-text">Full Story</span>
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+                    See Our Technology in Action
+                </p>
+            </div>
+            
+            <div class="animate-section opacity-0">
+                <div class="video-placeholder rounded-xl overflow-hidden shadow-xl relative h-96">
+                    <div class="play-button">
+                        <i class="fas fa-play text-orange-500 text-3xl"></i>
+                    </div>
+                </div>
+                <p class="mt-4 text-center text-gray-600">
+                    Explore how SunWave panels are changing the way people live and heat their space—comfortably, responsibly, and beautifully.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">About</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Our Story</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Technology</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Sustainability</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Products</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Residential</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Commercial</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Scandinavian Edition</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Custom Solutions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Installation Guide</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Warranty</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-400">Subscribe to our newsletter</p>
+                        <div class="mt-2 flex">
+                            <input type="email" placeholder="Your email" class="px-3 py-2 bg-gray-800 text-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 w-full">
+                            <button class="bg-orange-500 text-white px-4 py-2 rounded-r-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <div class="md:flex md:items-center md:justify-between">
+                    <div class="flex justify-center md:order-2 space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white">Privacy</a>
+                        <a href="#" class="text-gray-400 hover:text-white">Terms</a>
+                        <a href="#" class="text-gray-400 hover:text-white">Cookies</a>
+                    </div>
+                    <div class="mt-8 md:mt-0 md:order-1">
+                        <p class="text-center text-sm text-gray-400">
+                            &copy; 2023 SunWave. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.animate-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Floating animation for elements
+            const floatingElements = document.querySelectorAll('.floating');
+            floatingElements.forEach(el => {
+                el.style.animationDelay = `${Math.random() * 2}s`;
+            });
+            
+            // Video placeholder click
+            const playButton = document.querySelector('.play-button');
+            if (playButton) {
+                playButton.addEventListener('click', function() {
+                    alert('Video would play here in a real implementation');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
