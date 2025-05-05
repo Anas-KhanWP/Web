@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary: #00f0ff;
+            --secondary: #ff00e6;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #e0e0ff;
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .glow-primary {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+        }
+        
+        .glow-secondary {
+            text-shadow: 0 0 10px rgba(255, 0, 230, 0.7);
+        }
+        
+        .border-glow-primary {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+        }
+        
+        .border-glow-secondary {
+            box-shadow: 0 0 15px rgba(255, 0, 230, 0.5);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(0, 240, 255, 0.1);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        
+        .nav-item {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary);
+            background: rgba(0, 240, 255, 0.05);
+        }
+        
+        .nav-item.active {
+            color: white;
+            background: rgba(0, 240, 255, 0.1);
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .nav-item i {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-bar {
+            background: rgba(20, 20, 40, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: white;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+        
+        .card {
+            background: rgba(20, 20, 40, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            text-align: left;
+            padding: 12px 15px;
+            color: var(--primary);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        
+        .table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.05);
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table tr:hover td {
+            background: rgba(0, 240, 255, 0.03);
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: rgba(255, 165, 0, 0.1);
+            color: orange;
+        }
+        
+        .status-completed {
+            background: rgba(0, 255, 0, 0.1);
+            color: lime;
+        }
+        
+        .status-cancelled {
+            background: rgba(255, 0, 0, 0.1);
+            color: red;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 240, 255, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(20, 20, 40, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 5px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            background: rgba(20, 20, 40, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 240, 255, 0.1);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+        
+        .product-image {
+            height: 180px;
+            background: rgba(0, 240, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 240, 255, 0.3);
+        }
+        
+        .product-body {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .product-price {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            background: rgba(20, 20, 40, 0.8);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-toggle:hover {
+            background: rgba(0, 240, 255, 0.2);
+            color: var(--primary);
+        }
+        
+        .sidebar-collapsed {
+            transform: translateX(-100%);
+        }
+        
+        .main-content-expanded {
+            margin-left: 0;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 240, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 240, 255, 0);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar-collapsed {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar-expanded {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar-toggle {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Background Container -->
+    <div id="threejs-container"></div>
+    
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="text-xl font-orbitron gradient-text">Nexus<span class="glow-primary">AI</span></h2>
+        </div>
+        <nav>
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-section="products">
+                <i class="fas fa-box-open"></i>
+                <span>Products</span>
+            </a>
+            <a href="#" class="nav-item" data-section="add-product">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add New Product</span>
+            </a>
+            <a href="#" class="nav-item" data-section="orders">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="#" class="nav-item" data-section="customers">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <a href="#" class="nav-item" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Dashboard Section -->
+        <section class="section" id="dashboard-section">
+            <div class="header">
+                <h1 class="text-2xl font-orbitron">Dashboard Overview</h1>
+                <div class="flex items-center space-x-4">
+                    <input type="text" class="search-bar" placeholder="Search...">
+                    <div class="user-profile">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="user-avatar">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3 class="text-lg font-orbitron mb-4">Total Revenue</h3>
+                    <p class="text-3xl gradient-text font-bold">$24,589</p>
+                    <p class="text-green-400 mt-2"><i class="fas fa-arrow-up mr-1"></i> 12% from last month</p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-lg font-orbitron mb-4">Total Orders</h3>
+                    <p class="text-3xl gradient-text font-bold">1,248</p>
+                    <p class="text-green-400 mt-2"><i class="fas fa-arrow-up mr-1"></i> 5% from last month</p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-lg font-orbitron mb-4">Total Products</h3>
+                    <p class="text-3xl gradient-text font-bold">187</p>
+                    <p class="text-green-400 mt-2"><i class="fas fa-arrow-up mr-1"></i> 3 new this week</p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-lg font-orbitron mb-4">Active Users</h3>
+                    <p class="text-3xl gradient-text font-bold">4,892</p>
+                    <p class="text-red-400 mt-2"><i class="fas fa-arrow-down mr-1"></i> 2% from last week</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-xl font-orbitron">Recent Orders</h2>
+                    <button class="btn btn-outline">View All</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#NX-4589</td>
+                                <td>John Smith</td>
+                                <td>May 15, 2023</td>
+                                <td>$249.99</td>
+                                <td><span class="status status-completed">Completed</span></td>
+                                <td><button class="btn btn-outline">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4588</td>
+                                <td>Sarah Johnson</td>
+                                <td>May 14, 2023</td>
+                                <td>$129.99</td>
+                                <td><span class="status status-pending">Pending</span></td>
+                                <td><button class="btn btn-outline">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4587</td>
+                                <td>Michael Brown</td>
+                                <td>May 14, 2023</td>
+                                <td>$89.99</td>
+                                <td><span class="status status-completed">Completed</span></td>
+                                <td><button class="btn btn-outline">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4586</td>
+                                <td>Emily Davis</td>
+                                <td>May 13, 2023</td>
+                                <td>$199.99</td>
+                                <td><span class="status status-cancelled">Cancelled</span></td>
+                                <td><button class="btn btn-outline">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section class="section hidden" id="products-section">
+            <div class="header">
+                <h1 class="text-2xl font-orbitron">Product Management</h1>
+                <div class="flex items-center space-x-4">
+                    <input type="text" class="search-bar" placeholder="Search products...">
+                    <button class="btn btn-primary" id="addProductBtn">
+                        <i class="fas fa-plus mr-2"></i> Add Product
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-xl font-orbitron">All Products</h2>
+                    <div class="flex space-x-2">
+                        <select class="form-control" style="width: auto;">
+                            <option>All Categories</option>
+                            <option>Electronics</option>
+                            <option>Clothing</option>
+                            <option>Home & Garden</option>
+                        </select>
+                        <select class="form-control" style="width: auto;">
+                            <option>Sort By</option>
+                            <option>Newest</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-box-open fa-3x"></i>
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-title">Quantum Processor X9</h3>
+                            <p class="text-sm text-gray-400 mb-2">High-performance quantum computing chip</p>
+                            <p class="product-price">$1,299.99</p>
+                            <div class="product-actions">
+                                <button class="btn btn-outline">Edit</button>
+                                <button class="btn btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-box-open fa-3x"></i>
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-title">Neural Headset Pro</h3>
+                            <p class="text-sm text-gray-400 mb-2">Brain-computer interface device</p>
+                            <p class="product-price">$599.99</p>
+                            <div class="product-actions">
+                                <button class="btn btn-outline">Edit</button>
+                                <button class="btn btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-box-open fa-3x"></i>
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-title">Holographic Display</h3>
+                            <p class="text-sm text-gray-400 mb-2">3D projection without glasses</p>
+                            <p class="product-price">$899.99</p>
+                            <div class="product-actions">
+                                <button class="btn btn-outline">Edit</button>
+                                <button class="btn btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-box-open fa-3x"></i>
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-title">AI Assistant Pod</h3>
+                            <p class="text-sm text-gray-400 mb-2">Voice-controlled smart home hub</p>
+                            <p class="product-price">$349.99</p>
+                            <div class="product-actions">
+                                <button class="btn btn-outline">Edit</button>
+                                <button class="btn btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-box-open fa-3x"></i>
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-title">Smart Fabric Jacket</h3>
+                            <p class="text-sm text-gray-400 mb-2">Temperature-regulating clothing</p>
+                            <p class="product-price">$249.99</p>
+                            <div class="product-actions">
+                                <button class="btn btn-outline">Edit</button>
+                                <button class="btn btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-box-open fa-3x"></i>
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-title">Nano Drone Swarm</h3>
+                            <p class="text-sm text-gray-400 mb-2">Pack of 12 programmable micro drones</p>
+                            <p class="product-price">$179.99</p>
+                            <div class="product-actions">
+                                <button class="btn btn-outline">Edit</button>
+                                <button class="btn btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Add Product Section -->
+        <section class="section hidden" id="add-product-section">
+            <div class="header">
+                <h1 class="text-2xl font-orbitron">Add New Product</h1>
+                <button class="btn btn-outline" id="backToProductsBtn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Products
+                </button>
+            </div>
+            
+            <div class="card">
+                <form id="productForm">
+                    <div class="grid">
+                        <div class="form-group">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control" placeholder="Enter product name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Price</label>
+                            <input type="number" class="form-control" placeholder="Enter price" step="0.01" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-control" required>
+                                <option value="">Select category</option>
+                                <option>Electronics</option>
+                                <option>Clothing</option>
+                                <option>Home & Garden</option>
+                                <option>Health & Fitness</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Stock Quantity</label>
+                            <input type="number" class="form-control" placeholder="Enter quantity" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" rows="4" placeholder="Enter product description" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Product Images</label>
+                        <div class="border-2 border-dashed border-cyan-400/30 rounded-lg p-8 text-center">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-cyan-400/50 mb-4"></i>
+                            <p class="text-gray-400 mb-2">Drag & drop your files here or click to browse</p>
+                            <button type="button" class="btn btn-outline">Select Files</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button type="reset" class="btn btn-outline">Reset</button>
+                        <button type="submit" class="btn btn-primary">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Orders Section -->
+        <section class="section hidden" id="orders-section">
+            <div class="header">
+                <h1 class="text-2xl font-orbitron">Order Management</h1>
+                <div class="flex items-center space-x-4">
+                    <input type="text" class="search-bar" placeholder="Search orders...">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-download mr-2"></i> Export
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-xl font-orbitron">Recent Orders</h2>
+                    <div class="flex space-x-2">
+                        <select class="form-control" style="width: auto;">
+                            <option>All Status</option>
+                            <option>Pending</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <select class="form-control" style="width: auto;">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 3 months</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#NX-4589</td>
+                                <td>John Smith</td>
+                                <td>May 15, 2023</td>
+                                <td>3</td>
+                                <td>$249.99</td>
+                                <td><span class="status status-completed">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-outline">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4588</td>
+                                <td>Sarah Johnson</td>
+                                <td>May 14, 2023</td>
+                                <td>1</td>
+                                <td>$129.99</td>
+                                <td><span class="status status-pending">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-outline">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4587</td>
+                                <td>Michael Brown</td>
+                                <td>May 14, 2023</td>
+                                <td>2</td>
+                                <td>$89.99</td>
+                                <td><span class="status status-completed">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-outline">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4586</td>
+                                <td>Emily Davis</td>
+                                <td>May 13, 2023</td>
+                                <td>1</td>
+                                <td>$199.99</td>
+                                <td><span class="status status-cancelled">Cancelled</span></td>
+                                <td>
+                                    <button class="btn btn-outline">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4585</td>
+                                <td>David Wilson</td>
+                                <td>May 12, 2023</td>
+                                <td>5</td>
+                                <td>$459.99</td>
+                                <td><span class="status status-completed">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-outline">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#NX-4584</td>
+                                <td>Jessica Lee</td>
+                                <td>May 11, 2023</td>
+                                <td>2</td>
+                                <td>$159.99</td>
+                                <td><span class="status status-pending">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-outline">Details</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Order Details Modal -->
+        <div class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center hidden" id="orderDetailsModal">
+            <div class="bg-gray-900 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b border-gray-800 flex justify-between items-center">
+                    <h3 class="text-xl font-orbitron">Order Details #NX-4589</h3>
+                    <button class="text-gray-400 hover:text-white" id="closeModalBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <h4 class="font-orbitron text-lg mb-4">Customer Information</h4>
+                            <div class="space-y-3">
+                                <p><strong>Name:</strong> John Smith</p>
+                                <p><strong>Email:</strong> john.smith@example.com</p>
+                                <p><strong>Phone:</strong> (555) 123-4567</p>
+                                <p><strong>Customer Since:</strong> January 2022</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-orbitron text-lg mb-4">Shipping Information</h4>
+                            <div class="space-y-3">
+                                <p><strong>Address:</strong> 123 Main St, Apt 4B</p>
+                                <p><strong>City:</strong> New York</p>
+                                <p><strong>State:</strong> NY</p>
+                                <p><strong>ZIP:</strong> 10001</p>
+                                <p><strong>Country:</strong> United States</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-orbitron text-lg mb-4">Order Items</h4>
+                    <div class="overflow-x-auto">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Quantum Processor X9</td>
+                                    <td>$1,299.99</td>
+                                    <td>1</td>
+                                    <td>$1,299.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Neural Headset Pro</td>
+                                    <td>$599.99</td>
+                                    <td>1</td>
+                                    <td>$599.99</td>
+                                </tr>
+                                <tr>
+                                    <td>AI Assistant Pod</td>
+                                    <td>$349.99</td>
+                                    <td>1</td>
+                                    <td>$349.99</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-orbitron text-lg mb-4">Order Notes</h4>
+                            <div class="bg-gray-800/50 p-4 rounded-lg">
+                                <p>Please gift wrap all items separately.</p>
+                                <p class="mt-2 text-sm text-gray-400">Added on May 15, 2023 at 10:23 AM</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-orbitron text-lg mb-4">Order Summary</h4>
+                            <div class="bg-gray-800/50 p-4 rounded-lg">
+                                <div class="flex justify-between mb-2">
+                                    <span>Subtotal:</span>
+                                    <span>$2,249.97</span>
+                                </div>
+                                <div class="flex justify-between mb-2">
+                                    <span>Shipping:</span>
+                                    <span>$0.00</span>
+                                </div>
+                                <div class="flex justify-between mb-2">
+                                    <span>Tax:</span>
+                                    <span>$179.98</span>
+                                </div>
+                                <div class="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-gray-700">
+                                    <span>Total:</span>
+                                    <span>$2,429.95</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 border-t border-gray-800 flex justify-end space-x-3">
+                    <button class="btn btn-outline">Print Invoice</button>
+                    <button class="btn btn-primary">Update Status</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Three.js Background
+        const container = document.getElementById('threejs-container');
+        
+        if (container) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+                colorArray[i] = Math.random();
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            
+            // Create particle material
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            
+            // Create particle system
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Create connecting lines
+            const lineGeometry = new THREE.BufferGeometry();
+            const linePositions = new Float32Array(particlesCount * 3 * 2);
+            const lineColors = new Float32Array(particlesCount * 3 * 2);
+            
+            for (let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                const i6 = i * 6;
+                
+                // Start point (particle position)
+                linePositions[i6] = posArray[i3];
+                linePositions[i6 + 1] = posArray[i3 + 1];
+                linePositions[i6 + 2] = posArray[i3 + 2];
+                
+                // End point (random nearby position)
+                linePositions[i6 + 3] = posArray[i3] + (Math.random() - 0.5) * 0.5;
+                linePositions[i6 + 4] = posArray[i3 + 1] + (Math.random() - 0.5) * 0.5;
+                linePositions[i6 + 5] = posArray[i3 + 2] + (Math.random() - 0.5) * 0.5;
+                
+                // Colors
+                lineColors[i6] = colorArray[i3];
+                lineColors[i6 + 1] = colorArray[i3 + 1];
+                lineColors[i6 + 2] = colorArray[i3 + 2];
+                lineColors[i6 + 3] = colorArray[i3];
+                lineColors[i6 + 4] = colorArray[i3 + 1];
+                lineColors[i6 + 5] = colorArray[i3 + 2];
+            }
+            
+            lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+            lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+            
+            const lineMaterial = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.2
+            });
+            
+            const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lines);
+            
+            // Camera position
+            camera.position.z = 3;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.x += 0.0002;
+                particlesMesh.rotation.y += 0.0003;
+                
+                lines.rotation.x += 0.0002;
+                lines.rotation.y += 0.0003;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // Sidebar Toggle
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-expanded');
+            sidebarToggle.innerHTML = sidebar.classList.contains('sidebar-expanded') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Navigation
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section');
+        
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            document.getElementById(`${sectionId}-section`).classList.remove('hidden');
+            
+            // Update active nav item
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-section') === sectionId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Close sidebar on mobile
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('sidebar-expanded');
+                sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = item.getAttribute('data-section');
+                showSection(sectionId);
+            });
+        });
+        
+        // Add Product Button
+        const addProductBtn = document.getElementById('addProductBtn');
+        const backToProductsBtn = document.getElementById('backToProductsBtn');
+        
+        if (addProductBtn) {
+            addProductBtn.addEventListener('click', () => {
+                showSection('add-product');
+            });
+        }
+        
+        if (backToProductsBtn) {
+            backToProductsBtn.addEventListener('click', () => {
+                showSection('products');
+            });
+        }
+        
+        // Order Details Modal
+        const orderDetailsModal = document.getElementById('orderDetailsModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const viewButtons = document.querySelectorAll('.btn-outline');
+        
+        if (viewButtons.length > 0) {
+            viewButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    orderDetailsModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+        }
+        
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => {
+                orderDetailsModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+        }
+        
+        // Form Submission
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'mt-4 p-3 bg-green-900/50 text-green-400 rounded text-center';
+                    successMsg.textContent = 'Operation completed successfully!';
+                    
+                    form.appendChild(successMsg);
+                    
+                    // Remove message after delay
+                    setTimeout(() => {
+                        successMsg.remove();
+                    }, 3000);
+                }, 2000);
+            });
+        });
+        
+        // Initialize dashboard as default view
+        showSection('dashboard');
+    </script>
+</body>
+</html>
