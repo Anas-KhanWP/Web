@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAuth | Secure Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary: #00f0ff;
+            --secondary: #ff00e6;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #e0e0ff;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        h1, h2, h3, h4, .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .glow-primary {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+        }
+        
+        .glow-secondary {
+            text-shadow: 0 0 10px rgba(255, 0, 230, 0.7);
+        }
+        
+        .border-glow-primary {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+        }
+        
+        .border-glow-secondary {
+            box-shadow: 0 0 15px rgba(255, 0, 230, 0.5);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
+        }
+        
+        .auth-container {
+            background: rgba(10, 10, 26, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 420px;
+        }
+        
+        .toggle-switcher {
+            position: relative;
+            display: flex;
+            background: rgba(20, 20, 40, 0.5);
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .toggle-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+        
+        .toggle-option.active {
+            color: white;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            height: calc(100% - 10px);
+            width: 50%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 50px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(20, 20, 40, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+        
+        .form-label {
+            position: absolute;
+            left: 20px;
+            top: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            top: -10px;
+            left: 15px;
+            font-size: 12px;
+            background: rgba(10, 10, 26, 0.9);
+            padding: 0 5px;
+            color: var(--primary);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20, 20, 40, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            color: white;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.2);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .divider-text {
+            padding: 0 15px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .login-form, .signup-form {
+            position: relative;
+        }
+        
+        .signup-form {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(20px);
+        }
+        
+        .signup-form.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(0);
+        }
+        
+        .login-form.active {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-20px);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 240, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 240, 255, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Background Container -->
+    <div id="threejs-container"></div>
+    
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="form-container">
+            <!-- Toggle Switcher -->
+            <div class="toggle-switcher">
+                <div class="toggle-slider"></div>
+                <div class="toggle-option active font-orbitron" data-form="login">LOGIN</div>
+                <div class="toggle-option font-orbitron" data-form="signup">SIGN UP</div>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="login-form">
+                <div class="form-group">
+                    <input type="email" class="form-input" id="login-email" placeholder=" " required>
+                    <label for="login-email" class="form-label">Email</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-input" id="login-password" placeholder=" " required>
+                    <label for="login-password" class="form-label">Password</label>
+                </div>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-me" class="mr-2">
+                        <label for="remember-me" class="text-sm text-gray-400">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm text-cyan-400 hover:underline">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn-primary font-orbitron">LOGIN</button>
+                
+                <div class="divider">
+                    <span class="divider-text">OR</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="social-btn hover:text-blue-400">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button type="button" class="social-btn hover:text-blue-500">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button type="button" class="social-btn hover:text-cyan-400">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button type="button" class="social-btn hover:text-gray-300">
+                        <i class="fab fa-apple"></i>
+                    </button>
+                </div>
+                
+                <div class="form-footer">
+                    Don't have an account? <a href="#" class="toggle-link" data-form="signup">Sign up</a>
+                </div>
+            </form>
+            
+            <!-- Signup Form -->
+            <form class="signup-form">
+                <div class="form-group">
+                    <input type="text" class="form-input" id="signup-name" placeholder=" " required>
+                    <label for="signup-name" class="form-label">Full Name</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="email" class="form-input" id="signup-email" placeholder=" " required>
+                    <label for="signup-email" class="form-label">Email</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-input" id="signup-password" placeholder=" " required>
+                    <label for="signup-password" class="form-label">Password</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-input" id="signup-confirm" placeholder=" " required>
+                    <label for="signup-confirm" class="form-label">Confirm Password</label>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <input type="checkbox" id="terms" class="mr-2" required>
+                    <label for="terms" class="text-sm text-gray-400">
+                        I agree to the <a href="#" class="text-cyan-400 hover:underline">Terms</a> and <a href="#" class="text-cyan-400 hover:underline">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn-primary font-orbitron">CREATE ACCOUNT</button>
+                
+                <div class="divider">
+                    <span class="divider-text">OR</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="social-btn hover:text-blue-400">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button type="button" class="social-btn hover:text-blue-500">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button type="button" class="social-btn hover:text-cyan-400">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button type="button" class="social-btn hover:text-gray-300">
+                        <i class="fab fa-apple"></i>
+                    </button>
+                </div>
+                
+                <div class="form-footer">
+                    Already have an account? <a href="#" class="toggle-link" data-form="login">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Three.js Background
+        const container = document.getElementById('threejs-container');
+        
+        if (container) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+                colorArray[i] = Math.random();
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            
+            // Create particle material
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            
+            // Create particle system
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Create connecting lines
+            const lineGeometry = new THREE.BufferGeometry();
+            const linePositions = new Float32Array(particlesCount * 3 * 2);
+            const lineColors = new Float32Array(particlesCount * 3 * 2);
+            
+            for (let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                const i6 = i * 6;
+                
+                // Start point (particle position)
+                linePositions[i6] = posArray[i3];
+                linePositions[i6 + 1] = posArray[i3 + 1];
+                linePositions[i6 + 2] = posArray[i3 + 2];
+                
+                // End point (random nearby position)
+                linePositions[i6 + 3] = posArray[i3] + (Math.random() - 0.5) * 0.5;
+                linePositions[i6 + 4] = posArray[i3 + 1] + (Math.random() - 0.5) * 0.5;
+                linePositions[i6 + 5] = posArray[i3 + 2] + (Math.random() - 0.5) * 0.5;
+                
+                // Colors
+                lineColors[i6] = colorArray[i3];
+                lineColors[i6 + 1] = colorArray[i3 + 1];
+                lineColors[i6 + 2] = colorArray[i3 + 2];
+                lineColors[i6 + 3] = colorArray[i3];
+                lineColors[i6 + 4] = colorArray[i3 + 1];
+                lineColors[i6 + 5] = colorArray[i3 + 2];
+            }
+            
+            lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+            lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+            
+            const lineMaterial = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.2
+            });
+            
+            const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lines);
+            
+            // Camera position
+            camera.position.z = 3;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.x += 0.0002;
+                particlesMesh.rotation.y += 0.0003;
+                
+                lines.rotation.x += 0.0002;
+                lines.rotation.y += 0.0003;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // Form Toggle Functionality
+        const toggleOptions = document.querySelectorAll('.toggle-option');
+        const toggleSlider = document.querySelector('.toggle-slider');
+        const loginForm = document.querySelector('.login-form');
+        const signupForm = document.querySelector('.signup-form');
+        const toggleLinks = document.querySelectorAll('.toggle-link');
+        
+        function toggleForm(formType) {
+            if (formType === 'login') {
+                // Move slider to login
+                gsap.to(toggleSlider, {
+                    x: 0,
+                    duration: 0.5,
+                    ease: "back.out(1.2)"
+                });
+                
+                // Update active class
+                toggleOptions[0].classList.add('active');
+                toggleOptions[1].classList.remove('active');
+                
+                // Animate forms
+                gsap.to(loginForm, {
+                    opacity: 1,
+                    pointerEvents: 'all',
+                    x: 0,
+                    duration: 0.5,
+                    ease: "power3.out"
+                });
+                
+                gsap.to(signupForm, {
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    x: 20,
+                    duration: 0.5,
+                    ease: "power3.out"
+                });
+            } else {
+                // Move slider to signup
+                gsap.to(toggleSlider, {
+                    x: '100%',
+                    duration: 0.5,
+                    ease: "back.out(1.2)"
+                });
+                
+                // Update active class
+                toggleOptions[0].classList.remove('active');
+                toggleOptions[1].classList.add('active');
+                
+                // Animate forms
+                gsap.to(loginForm, {
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    x: -20,
+                    duration: 0.5,
+                    ease: "power3.out"
+                });
+                
+                gsap.to(signupForm, {
+                    opacity: 1,
+                    pointerEvents: 'all',
+                    x: 0,
+                    duration: 0.5,
+                    ease: "power3.out"
+                });
+            }
+        }
+        
+        // Add click event to toggle options
+        toggleOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const formType = option.getAttribute('data-form');
+                toggleForm(formType);
+            });
+        });
+        
+        // Add click event to toggle links
+        toggleLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const formType = link.getAttribute('data-form');
+                toggleForm(formType);
+            });
+        });
+        
+        // Form validation and submission
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Add loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'mt-4 p-3 bg-green-900/50 text-green-400 rounded text-center';
+                    successMsg.textContent = form.classList.contains('login-form') ? 
+                        'Login successful! Redirecting...' : 
+                        'Account created successfully!';
+                    
+                    form.appendChild(successMsg);
+                    
+                    // Remove message after delay
+                    setTimeout(() => {
+                        successMsg.remove();
+                        
+                        // If login, redirect
+                        if (form.classList.contains('login-form')) {
+                            // window.location.href = '/dashboard';
+                        }
+                    }, 3000);
+                }, 2000);
+            });
+        });
+        
+        // Input focus effects
+        const inputs = document.querySelectorAll('.form-input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                const label = input.nextElementSibling;
+                gsap.to(label, {
+                    color: '#00f0ff',
+                    duration: 0.3
+                });
+            });
+            
+            input.addEventListener('blur', () => {
+                const label = input.nextElementSibling;
+                if (!input.value) {
+                    gsap.to(label, {
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        duration: 0.3
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
