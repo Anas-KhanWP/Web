@@ -3495,14 +3495,14 @@ blockquote {
 }
 
 .navbar {
-  background-color: #404C4A;
+  background-color: #CCB8A4;
   width: 100%;
   padding-top: 1.75rem;
   padding-bottom: 1.75rem;
 }
 
 .body {
-  background-color: #F6F5F3;
+  background-color: #404C4A;
   color: var(--primary--darker);
   flex-direction: column;
   justify-content: flex-start;
@@ -3623,7 +3623,7 @@ blockquote {
 }
 
 .button.button-navbar {
-  background-color: #CCB8A4;
+  background-color: #404C4A;
   color: var(--primary--default);
   padding: 1.25rem 1.875rem;
   font-size: 1rem;
@@ -4010,7 +4010,7 @@ blockquote {
 
 .navbar-wrapper {
   z-index: 10;
-  background-color: #F6F5F3;
+  background-color: #404C4A;
   width: 100%;
   padding-top: .625rem;
   padding-bottom: .625rem;
@@ -4051,7 +4051,7 @@ blockquote {
 
 .navbar-links {
   grid-column-gap: .25rem;
-  background-color: #CCB8A4;
+  background-color: #404C4A !important;
   border-radius: 100vmax;
   justify-content: center;
   align-items: center;
