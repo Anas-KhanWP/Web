@@ -5648,7 +5648,12 @@ blockquote {
   }
 
   .button.button-navbar.button-navbar-phone:hover {
-    opacity: .5;
+    color: #111111;
+  }
+
+  .button.button-navbar.button-navbar-phone:hover .button-icon {
+    filter: invert(0%) sepia(1%) saturate(5862%) hue-rotate(323deg) brightness(91%) contrast(87%);
+    transition: filter .2s ease;
   }
 
   .navbar-links {
