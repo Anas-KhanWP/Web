@@ -3744,7 +3744,7 @@ blockquote {
 
 .button-hover {
   z-index: 1;
-  background-color: #404C4A;
+  background-color: #e5e7eb;
   border-radius: 100vmax;
   display: flex;
   position: absolute;
