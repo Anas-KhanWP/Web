@@ -3619,7 +3619,7 @@ blockquote {
 }
 
 .button:hover {
-  color: var(--primary--default);
+  color: #111111 !important;
 }
 
 .button.button-navbar {
@@ -3754,7 +3754,7 @@ blockquote {
 }
 
 .button-hover.button-hover-navbar {
-  background-color: #404C4A;
+  background-color: #e5e7eb;
 }
 
 .button-hover.button-hover-submit {
