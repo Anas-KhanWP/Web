@@ -3661,6 +3661,7 @@ blockquote {
   mix-blend-mode: difference;
   width: 100%;
   margin-bottom: 0;
+  opacity: 1;
 }
 
 .button.button-event.button-event-fulll-with {
