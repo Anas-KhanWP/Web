@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunWave Sweden | Beautiful, Smart & Sustainable Heating</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cod-gray': '#111111',
+                        'bright-sun': '#FDD249',
+                        'mid-gray': '#64656A',
+                        'concrete': '#F3F3F3',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F3F3;
+        }
+        
+        .panel-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #FDD249 0%, #f8e58c 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .wave-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .wave-bg svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 150px;
+        }
+
+        .wave-bg .shape-fill {
+            fill: #111111;
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .heat-wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(253,210,73,0.15) 0%, rgba(253,210,73,0) 70%);
+            border-radius: 50%;
+            animation: pulse-slow 4s infinite;
+        }
+    </style>
+</head>
+<body class="text-cod-gray">
+    <!-- Navigation -->
+    <nav class="bg-cod-gray text-white sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-sun text-bright-sun text-2xl animate-spin-slow"></i>
+                    <span class="text-xl font-bold">SunWave</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="hover:text-bright-sun transition">Products</a>
+                    <a href="#" class="hover:text-bright-sun transition">Technology</a>
+                    <a href="#" class="hover:text-bright-sun transition">Sustainability</a>
+                    <a href="#" class="hover:text-bright-sun transition">About</a>
+                    <a href="#" class="hover:text-bright-sun transition">Contact</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-bright-sun text-cod-gray px-4 py-2 rounded-full font-medium hover:bg-yellow-300 transition">Shop Now</button>
+                    <button class="md:hidden">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-cod-gray text-white overflow-hidden">
+        <div class="container mx-auto px-6 py-20 md:py-32 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-12 md:mb-0 relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    <span class="gradient-text">Heating That's</span><br>
+                    Beautiful, Smart & Sustainable
+                </h1>
+                <p class="text-mid-gray text-lg mb-8 max-w-lg">
+                    Say goodbye to outdated, bulky radiators. Say hello to sleek Scandinavian-designed infrared heating panels that warm your home evenly, save you money, and protect the planet.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button class="bg-bright-sun text-cod-gray px-6 py-3 rounded-full font-bold hover:bg-yellow-300 transition transform hover:scale-105">
+                        Explore Products
+                    </button>
+                    <button class="border-2 border-bright-sun text-bright-sun px-6 py-3 rounded-full font-bold hover:bg-bright-sun hover:text-cod-gray transition transform hover:scale-105">
+                        Watch Demo
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <div class="relative w-full h-96 md:h-auto">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="heat-wave"></div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Modern heating panel" 
+                         class="relative z-10 w-full max-w-md mx-auto rounded-xl shadow-2xl object-cover animate-float">
+                </div>
+            </div>
+        </div>
+        <div class="wave-bg">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-20 bg-concrete">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">✨ Our Most Loved Panels</h2>
+                <p class="text-mid-gray max-w-2xl mx-auto">Discover why customers across Sweden and 17 countries choose SunWave:</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 panel-hover">
+                    <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-300 flex items-center justify-center">
+                        <div class="w-3/4 h-3/4 bg-white rounded-lg shadow-inner flex items-center justify-center">
+                            <i class="fas fa-fire text-4xl text-bright-sun"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Nordic Marble</h3>
+                        <p class="text-mid-gray mb-4">Wood Frame</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">kr6,990</span>
+                            <button class="text-bright-sun hover:text-yellow-600">
+                                <i class="fas fa-plus-circle text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 panel-hover">
+                    <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center">
+                        <div class="w-3/4 h-3/4 bg-white rounded-lg shadow-inner flex items-center justify-center">
+                            <i class="fas fa-fire text-4xl text-bright-sun"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Marble Mist</h3>
+                        <p class="text-mid-gray mb-4">Grey Frame</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">kr6,990</span>
+                            <button class="text-bright-sun hover:text-yellow-600">
+                                <i class="fas fa-plus-circle text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 panel-hover">
+                    <div class="h-48 bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center">
+                        <div class="w-3/4 h-3/4 bg-white rounded-lg shadow-inner flex items-center justify-center">
+                            <i class="fas fa-fire text-4xl text-bright-sun"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Urban Stone</h3>
+                        <p class="text-mid-gray mb-4">Concrete Grey</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">kr6,990</span>
+                            <button class="text-bright-sun hover:text-yellow-600">
+                                <i class="fas fa-plus-circle text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 4 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 panel-hover">
+                    <div class="h-48 bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
+                        <div class="w-3/4 h-3/4 bg-white rounded-lg shadow-inner flex items-center justify-center">
+                            <i class="fas fa-fire text-4xl text-bright-sun"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Graphite Line</h3>
+                        <p class="text-mid-gray mb-4">Mid Grey</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">kr6,990</span>
+                            <button class="text-bright-sun hover:text-yellow-600">
+                                <i class="fas fa-plus-circle text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="bg-cod-gray text-white px-8 py-3 rounded-full font-bold hover:bg-gray-900 transition transform hover:scale-105 flex items-center mx-auto">
+                    Shop All Products <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem/Solution Section -->
+    <section class="py-20 bg-cod-gray text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                        <span class="text-bright-sun">❌</span> The Problem With Old Heating
+                    </h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-400 mt-1 mr-3"></i>
+                            <span>Waste energy and overheat your rooms</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-400 mt-1 mr-3"></i>
+                            <span>Dry the air, making it uncomfortable</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-400 mt-1 mr-3"></i>
+                            <span>Require costly maintenance</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-400 mt-1 mr-3"></i>
+                            <span>Circulate dust and allergens</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white text-cod-gray p-8 rounded-xl shadow-xl relative">
+                    <div class="absolute -top-4 -right-4 bg-bright-sun text-cod-gray w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold">
+                        ✅
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                        The SunWave Solution
+                    </h2>
+                    <p class="mb-6">
+                        We use <span class="font-bold">organic far-infrared technology</span> to heat <span class="font-bold">people, walls, and objects directly—not just the air.</span> It's <span class="font-bold text-bright-sun">instant, comfortable, and up to 80% more energy efficient.</span>
+                    </p>
+                    <h3 class="text-xl font-bold mb-4 text-bright-sun">Why You'll Love It</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>100% organic, safe technology</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>Zero emissions during use</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>CE, ISO, DEKRA, and Fraunhofer certified</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>5-year warranty</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>Silent and maintenance-free</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Art Section -->
+    <section class="py-20 bg-concrete">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">🎨 Heating That's a Work of Art</h2>
+                <p class="text-mid-gray max-w-2xl mx-auto">Our wall-mounted decorative panels look like designer pieces—because they are. Choose a style that fits your interior, from minimalist stone finishes to warm wood frames.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-6 rounded-xl shadow-md h-48 flex items-center justify-center">
+                        <i class="fas fa-palette text-5xl text-bright-sun"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md h-48 flex items-center justify-center">
+                        <i class="fas fa-wifi text-5xl text-bright-sun"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md h-48 flex items-center justify-center">
+                        <i class="fas fa-tools text-5xl text-bright-sun"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md h-48 flex items-center justify-center">
+                        <i class="fas fa-heart text-5xl text-bright-sun"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-bright-sun">Features You'll Enjoy</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-bright-sun mt-1 mr-3"></i>
+                            <span>Slim, elegant design</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-bright-sun mt-1 mr-3"></i>
+                            <span>Wi-Fi & smart thermostat control</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-bright-sun mt-1 mr-3"></i>
+                            <span>Quick installation (like hanging a picture)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-bright-sun mt-1 mr-3"></i>
+                            <span>Safe for kids, pets & allergy sufferers</span>
+                        </li>
+                    </ul>
+                    <button class="mt-8 bg-bright-sun text-cod-gray px-6 py-3 rounded-full font-bold hover:bg-yellow-300 transition transform hover:scale-105">
+                        Shop Decorative Panels <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Section -->
+    <section class="py-20 bg-cod-gray text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-full h-full bg-repeat" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmZGQyNDkiLz48L3N2Zz4=');"></div>
+        </div>
+        <div class="container mx-auto px-6 relative">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">🌍 Heat Without the Carbon Footprint</h2>
+                <p class="text-mid-gray max-w-2xl mx-auto">Heating that keeps your home cozy—without harming the planet.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm border border-white border-opacity-20 text-center">
+                    <div class="w-16 h-16 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bolt text-2xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Powered by clean electricity</h3>
+                    <p class="text-mid-gray">No fossil fuels needed</p>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm border border-white border-opacity-20 text-center">
+                    <div class="w-16 h-16 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-2xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Low energy consumption</h3>
+                    <p class="text-mid-gray">Up to 80% more efficient</p>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm border border-white border-opacity-20 text-center">
+                    <div class="w-16 h-16 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-wind text-2xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">No harmful emissions</h3>
+                    <p class="text-mid-gray">Clean air for your home</p>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm border border-white border-opacity-20 text-center">
+                    <div class="w-16 h-16 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-award text-2xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">EU-certified</h3>
+                    <p class="text-mid-gray">Sustainability guaranteed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-20 bg-concrete">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">❤ Comfort That Feels Different</h2>
+                <p class="text-mid-gray max-w-2xl mx-auto">Experience warmth like never before with SunWave infrared heating.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md text-center transition-transform hover:scale-105">
+                    <div class="w-20 h-20 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-thermometer-half text-3xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Even Warmth</h3>
+                    <p class="text-mid-gray">No cold spots in your rooms</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md text-center transition-transform hover:scale-105">
+                    <div class="w-20 h-20 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-lungs text-3xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Healthier Air</h3>
+                    <p class="text-mid-gray">No dust circulation</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md text-center transition-transform hover:scale-105">
+                    <div class="w-20 h-20 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-spa text-3xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Wellness Benefits</h3>
+                    <p class="text-mid-gray">Gentle, sun-like heat</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md text-center transition-transform hover:scale-105">
+                    <div class="w-20 h-20 bg-bright-sun bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-coins text-3xl text-bright-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Lower Bills</h3>
+                    <p class="text-mid-gray">More warmth with less energy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-cod-gray text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">📢 What Customers Say</h2>
+                <p class="text-mid-gray max-w-2xl mx-auto">Hear from our satisfied customers across Sweden</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm border border-white border-opacity-20 testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-bright-sun bg-opacity-20 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-bright-sun"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Amelia L.</h4>
+                            <p class="text-mid-gray text-sm">Stockholm</p>
+                        </div>
+                    </div>
+                    <p class="italic">"The heat is instant and my energy bill dropped significantly."</p>
+                    <div class="flex mt-4 text-bright-sun">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm border border-white border-opacity-20 testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-bright-sun bg-opacity-20 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-bright-sun"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Emma K.</h4>
+                            <p class="text-mid-gray text-sm">Gothenburg</p>
+                        </div>
+                    </div>
+                    <p class="italic">"Stylish, silent, and so efficient—perfect for our cabin."</p>
+                    <div class="flex mt-4 text-bright-sun">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm border border-white border-opacity-20 testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-bright-sun bg-opacity-20 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-bright-sun"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Lars M.</h4>
+                            <p class="text-mid-gray text-sm">Malmö</p>
+                        </div>
+                    </div>
+                    <p class="italic">"No more dust or dry air, just pure comfort."</p>
+                    <div class="flex mt-4 text-bright-sun">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-bright-sun to-yellow-300 text-cod-gray">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">✨ Upgrade to Smarter, Greener Heating</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">Enjoy beautiful design, advanced technology, and eco-conscious warmth—all in one panel.</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button class="bg-cod-gray text-white px-8 py-3 rounded-full font-bold hover:bg-gray-900 transition transform hover:scale-105">
+                    Shop Now <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button class="bg-white text-cod-gray px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition transform hover:scale-105">
+                    Request a Free Consultation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-cod-gray text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-sun text-bright-sun text-2xl"></i>
+                        <span class="text-xl font-bold">SunWave</span>
+                    </div>
+                    <p class="text-mid-gray">Heating That's Beautiful, Smart & Sustainable</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Products</h3>
+                    <ul class="space-y-2 text-mid-gray">
+                        <li><a href="#" class="hover:text-bright-sun transition">All Panels</a></li>
+                        <li><a href="#" class="hover:text-bright-sun transition">Smart Controls</a></li>
+                        <li><a href="#" class="hover:text-bright-sun transition">Accessories</a></li>
+                        <li><a href="#" class="hover:text-bright-sun transition">Special Offers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Company</h3>
+                    <ul class="space-y-2 text-mid-gray">
+                        <li><a href="#" class="hover:text-bright-sun transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-bright-sun transition">Sustainability</a></li>
+                        <li><a href="#" class="hover:text-bright-sun transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-bright-sun transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Connect</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-bright-sun hover:text-cod-gray transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-bright-sun hover:text-cod-gray transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-bright-sun hover:text-cod-gray transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-bright-sun hover:text-cod-gray transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <p class="text-mid-gray">hello@sunwave.se</p>
+                </div>
+            </div>
+            <div class="border-t border-white border-opacity-20 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-mid-gray mb-4 md:mb-0">© 2023 SunWave Sweden. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-mid-gray hover:text-bright-sun transition">Privacy Policy</a>
+                    <a href="#" class="text-mid-gray hover:text-bright-sun transition">Terms of Service</a>
+                    <a href="#" class="text-mid-gray hover:text-bright-sun transition">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for the floating panel
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any JavaScript interactions here if needed
+        });
+    </script>
+</body>
+</html>
