@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunWave Sweden | Beautiful, Smart & Sustainable Heating</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #111111;
+            color: #F3F3F3;
+            overflow-x: hidden;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.7) 100%), url('https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80') center/cover;
+        }
+        
+        .panel-card {
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .panel-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgba(253, 210, 73, 0.25);
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(253, 210, 73, 0.3);
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        .floating-2 {
+            animation: floating 5s ease-in-out infinite 1s;
+        }
+        
+        .floating-3 {
+            animation: floating 4s ease-in-out infinite 2s;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .wave-animation {
+            animation: wave 8s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(253, 210, 73, 0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .btn-glow:hover::before {
+            opacity: 1;
+            animation: shine 1.5s;
+        }
+        
+        @keyframes shine {
+            0% { left: -50%; top: -50%; }
+            100% { left: 150%; top: 150%; }
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #FDD249, #f8f8f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#111111]/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold gradient-text">SunWave</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="#" class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">Products</a>
+                        <a href="#" class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">Technology</a>
+                        <a href="#" class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">Sustainability</a>
+                        <a href="#" class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">About</a>
+                        <a href="#" class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <a href="#" class="btn-glow px-6 py-2 rounded-full bg-[#FDD249] text-[#111111] font-medium hover:bg-[#f8d86c] transition duration-300 relative overflow-hidden">
+                        Shop Now
+                    </a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-[#F3F3F3] hover:text-[#FDD249] focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8 fade-in" style="animation-delay: 0.2s;">
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                        <span class="gradient-text">Heating That's</span><br>
+                        <span class="text-[#F3F3F3]">Beautiful, Smart &</span><br>
+                        <span class="gradient-text">Sustainable</span>
+                    </h1>
+                    <p class="text-xl text-[#64656A] max-w-lg">
+                        Say goodbye to outdated, bulky radiators. Say hello to sleek Scandinavian-designed infrared heating panels that warm your home evenly, save you money, and protect the planet.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#" class="btn-glow px-8 py-3 rounded-full bg-[#FDD249] text-[#111111] font-semibold hover:bg-[#f8d86c] transition duration-300 relative overflow-hidden">
+                            Shop Panels
+                        </a>
+                        <a href="#" class="px-8 py-3 rounded-full border-2 border-[#64656A] text-[#F3F3F3] font-semibold hover:border-[#FDD249] hover:text-[#FDD249] transition duration-300">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="relative fade-in" style="animation-delay: 0.4s;">
+                    <div class="relative z-10">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Modern heating panel" class="rounded-2xl shadow-2xl floating">
+                    </div>
+                    <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-[#FDD249]/20 rounded-full blur-xl floating-2"></div>
+                    <div class="absolute -top-8 -right-8 w-40 h-40 bg-[#FDD249]/10 rounded-full blur-xl floating-3"></div>
+                </div>
+            </div>
+            <div class="mt-20 text-center scroll-indicator">
+                <a href="#products" class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">
+                    <i class="fas fa-chevron-down text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Our Most Loved</span>
+                    <span class="text-[#F3F3F3]"> Panels</span>
+                </h2>
+                <p class="text-xl text-[#64656A] max-w-2xl mx-auto">
+                    Discover why customers across Sweden and 17 countries choose SunWave
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Panel 1 -->
+                <div class="panel-card bg-[#111111] border border-[#222222] rounded-2xl p-6 hover:border-[#FDD249]/30 fade-in" style="animation-delay: 0.2s;">
+                    <div class="h-48 bg-gradient-to-br from-[#222222] to-[#111111] rounded-xl mb-4 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-[#F3F3F3] rounded-lg"></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-[#F3F3F3] mb-1">Nordic Marble</h3>
+                    <p class="text-[#64656A] mb-4">Wood Frame</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[#FDD249] font-bold">kr6,990</span>
+                        <button class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Panel 2 -->
+                <div class="panel-card bg-[#111111] border border-[#222222] rounded-2xl p-6 hover:border-[#FDD249]/30 fade-in" style="animation-delay: 0.3s;">
+                    <div class="h-48 bg-gradient-to-br from-[#222222] to-[#111111] rounded-xl mb-4 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-[#64656A] rounded-lg"></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-[#F3F3F3] mb-1">Marble Mist</h3>
+                    <p class="text-[#64656A] mb-4">Grey Frame</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[#FDD249] font-bold">kr6,990</span>
+                        <button class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Panel 3 -->
+                <div class="panel-card bg-[#111111] border border-[#222222] rounded-2xl p-6 hover:border-[#FDD249]/30 fade-in" style="animation-delay: 0.4s;">
+                    <div class="h-48 bg-gradient-to-br from-[#222222] to-[#111111] rounded-xl mb-4 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-[#333333] rounded-lg"></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-[#F3F3F3] mb-1">Urban Stone</h3>
+                    <p class="text-[#64656A] mb-4">Concrete Grey</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[#FDD249] font-bold">kr6,990</span>
+                        <button class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Panel 4 -->
+                <div class="panel-card bg-[#111111] border border-[#222222] rounded-2xl p-6 hover:border-[#FDD249]/30 fade-in" style="animation-delay: 0.5s;">
+                    <div class="h-48 bg-gradient-to-br from-[#222222] to-[#111111] rounded-xl mb-4 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-[#555555] rounded-lg"></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-[#F3F3F3] mb-1">Graphite Line</h3>
+                    <p class="text-[#64656A] mb-4">Mid Grey</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[#FDD249] font-bold">kr6,990</span>
+                        <button class="text-[#F3F3F3] hover:text-[#FDD249] transition duration-300">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in" style="animation-delay: 0.6s;">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-[#64656A] rounded-full text-[#F3F3F3] hover:border-[#FDD249] hover:text-[#FDD249] transition duration-300">
+                    Shop All Products <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                        <span class="text-[#F3F3F3]">The Problem With</span>
+                        <span class="gradient-text"> Old Heating</span>
+                    </h2>
+                    <p class="text-xl text-[#64656A] mb-8">
+                        Traditional radiators and convection heaters waste energy and create uncomfortable environments.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-times text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">Waste energy and overheat your rooms</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-times text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">Dry the air, making it uncomfortable</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-times text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">Require costly maintenance</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-times text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">Circulate dust and allergens</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative fade-in" style="animation-delay: 0.4s;">
+                    <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfe3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Old radiator" class="rounded-2xl shadow-xl floating">
+                    <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-[#FDD249]/10 rounded-full blur-xl floating-2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-last lg:order-first relative fade-in" style="animation-delay: 0.4s;">
+                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2232&q=80" alt="Modern heating panel" class="rounded-2xl shadow-xl floating">
+                    <div class="absolute -top-6 -left-6 w-40 h-40 bg-[#FDD249]/10 rounded-full blur-xl floating-2"></div>
+                </div>
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                        <span class="gradient-text">The SunWave</span>
+                        <span class="text-[#F3F3F3]"> Solution</span>
+                    </h2>
+                    <p class="text-xl text-[#64656A] mb-8">
+                        We use <span class="text-[#FDD249]">organic far-infrared technology</span> to heat people, walls, and objects directly—not just the air. It's <span class="text-[#FDD249]">instant, comfortable, and up to 80% more energy efficient.</span>
+                    </p>
+                    <h3 class="text-2xl font-semibold text-[#FDD249] mb-4">Why You'll Love It</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-check text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">100% organic, safe technology</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-check text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">Zero emissions during use</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-check text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">CE, ISO, DEKRA, and Fraunhofer certified</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-check text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">5-year warranty</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-6 h-6 rounded-full bg-[#FDD249] flex items-center justify-center">
+                                    <i class="fas fa-check text-[#111111] text-xs"></i>
+                                </div>
+                            </div>
+                            <p class="ml-3 text-lg text-[#F3F3F3]">Silent and maintenance-free</p>
+                        </li>
+                    </ul>
+                    <div class="mt-8">
+                        <a href="#" class="inline-flex items-center px-6 py-3 border border-[#64656A] rounded-full text-[#F3F3F3] hover:border-[#FDD249] hover:text-[#FDD249] transition duration-300">
+                            Learn More About IR Panels <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Art Section -->
+    <section class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Heating That's</span>
+                    <span class="text-[#F3F3F3]"> a Work of Art</span>
+                </h2>
+                <p class="text-xl text-[#64656A] max-w-3xl mx-auto">
+                    Our wall-mounted decorative panels look like designer pieces—because they are. Choose a style that fits your interior, from minimalist stone finishes to warm wood frames.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-6 h-full">
+                        <div class="w-14 h-14 bg-[#FDD249] rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-paint-brush text-[#111111] text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Slim, elegant design</h3>
+                        <p class="text-[#64656A]">Only 2.5cm thick, our panels blend seamlessly with your decor.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.3s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-6 h-full">
+                        <div class="w-14 h-14 bg-[#FDD249] rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-wifi text-[#111111] text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Wi-Fi & smart thermostat control</h3>
+                        <p class="text-[#64656A]">Control your heating from anywhere with our smart app.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-6 h-full">
+                        <div class="w-14 h-14 bg-[#FDD249] rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-tools text-[#111111] text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Quick installation</h3>
+                        <p class="text-[#64656A]">Installation is as simple as hanging a picture frame.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center fade-in" style="animation-delay: 0.5s;">
+                <a href="#" class="btn-glow px-8 py-3 rounded-full bg-[#FDD249] text-[#111111] font-semibold hover:bg-[#f8d86c] transition duration-300 relative overflow-hidden inline-flex items-center">
+                    Shop Decorative Panels <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Section -->
+    <section class="py-20 bg-gradient-to-b from-[#111111] to-[#222222]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-[#F3F3F3]">Heat Without the</span>
+                    <span class="gradient-text"> Carbon Footprint</span>
+                </h2>
+                <p class="text-xl text-[#64656A] max-w-3xl mx-auto">
+                    Heating that keeps your home cozy—without harming the planet.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bolt text-[#111111] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Powered by clean electricity</h3>
+                        <p class="text-[#64656A]">Compatible with renewable energy sources for zero-emission heating.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.3s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-leaf text-[#111111] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Low energy consumption</h3>
+                        <p class="text-[#64656A]">Up to 80% more efficient than traditional heating systems.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-smog text-[#111111] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">No harmful emissions</h3>
+                        <p class="text-[#64656A]">Zero particulates or emissions during operation.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.5s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-certificate text-[#111111] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">EU-certified sustainability</h3>
+                        <p class="text-[#64656A]">Meeting the highest European environmental standards.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comfort Section -->
+    <section class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Comfort That</span>
+                    <span class="text-[#F3F3F3]"> Feels Different</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-[#FDD249] rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-sun text-[#111111]"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#F3F3F3]">Even Warmth</h3>
+                        </div>
+                        <p class="text-[#64656A]">No cold spots—just consistent, comfortable warmth throughout your space.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.3s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-[#FDD249] rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-wind text-[#111111]"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#F3F3F3]">Healthier Air</h3>
+                        </div>
+                        <p class="text-[#64656A]">No dust circulation means better air quality for allergy sufferers.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-[#FDD249] rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-heart text-[#111111]"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#F3F3F3]">Wellness Benefits</h3>
+                        </div>
+                        <p class="text-[#64656A]">Gentle, sun-like heat that promotes relaxation and wellbeing.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.5s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-[#FDD249] rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-coins text-[#111111]"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#F3F3F3]">Lower Bills</h3>
+                        </div>
+                        <p class="text-[#64656A]">More warmth with less energy means significant savings over time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted Section -->
+    <section class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-[#F3F3F3]">Trusted</span>
+                    <span class="gradient-text"> Across Europe</span>
+                </h2>
+                <p class="text-xl text-[#64656A] max-w-3xl mx-auto">
+                    From Sweden to 17 countries, SunWave is the preferred choice for modern, sustainable heating.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-home text-[#FDD249] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Homeowners</h3>
+                        <p class="text-[#64656A]">Lower bills, cleaner air, and beautiful design for modern homes.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.3s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-hotel text-[#FDD249] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Hotels</h3>
+                        <p class="text-[#64656A]">Silent, guest-pleasing warmth that enhances any interior design.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-hard-hat text-[#FDD249] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Builders</h3>
+                        <p class="text-[#64656A]">Future-proof, eco-friendly projects with minimal installation requirements.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.5s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="w-16 h-16 bg-[#FDD249]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-heart text-[#FDD249] text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Eco-Conscious Families</h3>
+                        <p class="text-[#64656A]">Heating without guilt—safe for children and pets while protecting the planet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="gradient-text">What</span>
+                    <span class="text-[#F3F3F3]"> Customers Say</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="testimonial-card bg-[#111111] border border-[#222222] rounded-2xl p-8 fade-in" style="animation-delay: 0.2s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FDD249]/10 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-quote-left text-[#FDD249]"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-[#F3F3F3]">Amelia L.</h4>
+                            <p class="text-[#64656A]">Stockholm</p>
+                        </div>
+                    </div>
+                    <p class="text-[#F3F3F3] italic">"The heat is instant and my energy bill dropped significantly."</p>
+                </div>
+                
+                <div class="testimonial-card bg-[#111111] border border-[#222222] rounded-2xl p-8 fade-in" style="animation-delay: 0.3s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FDD249]/10 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-quote-left text-[#FDD249]"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-[#F3F3F3]">Emma K.</h4>
+                            <p class="text-[#64656A]">Gothenburg</p>
+                        </div>
+                    </div>
+                    <p class="text-[#F3F3F3] italic">"Stylish, silent, and so efficient—perfect for our cabin."</p>
+                </div>
+                
+                <div class="testimonial-card bg-[#111111] border border-[#222222] rounded-2xl p-8 fade-in" style="animation-delay: 0.4s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FDD249]/10 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-quote-left text-[#FDD249]"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-[#F3F3F3]">Lars M.</h4>
+                            <p class="text-[#64656A]">Malmö</p>
+                        </div>
+                    </div>
+                    <p class="text-[#F3F3F3] italic">"No more dust or dry air, just pure comfort."</p>
+                </div>
+                
+                <div class="testimonial-card bg-[#111111] border border-[#222222] rounded-2xl p-8 fade-in" style="animation-delay: 0.5s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FDD249]/10 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-quote-left text-[#FDD249]"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-[#F3F3F3]">Sofia T.</h4>
+                            <p class="text-[#64656A]">Uppsala</p>
+                        </div>
+                    </div>
+                    <p class="text-[#F3F3F3] italic">"It's like having a piece of art that keeps you warm."</p>
+                </div>
+                
+                <div class="testimonial-card bg-[#111111] border border-[#222222] rounded-2xl p-8 fade-in" style="animation-delay: 0.6s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FDD249]/10 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-quote-left text-[#FDD249]"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-[#F3F3F3]">Maria P.</h4>
+                            <p class="text-[#64656A]">EcoGlow</p>
+                        </div>
+                    </div>
+                    <p class="text-[#F3F3F3] italic">"Safe, silent, and perfect for our nursery."</p>
+                </div>
+                
+                <div class="testimonial-card bg-[#111111] border border-[#222222] rounded-2xl p-8 fade-in" style="animation-delay: 0.7s;">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FDD249]/10 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-quote-left text-[#FDD249]"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-[#F3F3F3]">Anders B.</h4>
+                            <p class="text-[#64656A]">Lund</p>
+                        </div>
+                    </div>
+                    <p class="text-[#F3F3F3] italic">"The perfect combination of design and functionality."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commitment Section -->
+    <section class="py-20 bg-gradient-to-b from-[#222222] to-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Our</span>
+                    <span class="text-[#F3F3F3]"> Commitment</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="text-5xl font-bold text-[#FDD249] mb-2">100%</div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Sustainably Sourced</h3>
+                        <p class="text-[#64656A]">Materials & packaging from responsible suppliers.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.3s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="text-5xl font-bold text-[#FDD249] mb-2">98%</div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Customer Satisfaction</h3>
+                        <p class="text-[#64656A]">Based on verified customer reviews.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl p-8 text-center h-full hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="text-5xl font-bold text-[#FDD249] mb-2">100%</div>
+                        <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Organic Technology</h3>
+                        <p class="text-[#64656A]">Safe, natural infrared heating technology.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="py-20 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-[#F3F3F3]">Latest From</span>
+                    <span class="gradient-text"> the Blog</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="h-48 bg-gradient-to-br from-[#222222] to-[#111111]"></div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">The Science Behind SunWave® Infrared Heating</h3>
+                            <p class="text-[#64656A] mb-4">Discover how our organic far-infrared technology works to provide efficient, comfortable warmth.</p>
+                            <a href="#" class="text-[#FDD249] font-medium hover:underline inline-flex items-center">
+                                Read More <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.3s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="h-48 bg-gradient-to-br from-[#222222] to-[#111111]"></div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Infrared vs. Heat Pumps – Which Should You Choose?</h3>
+                            <p class="text-[#64656A] mb-4">A comprehensive comparison of two popular heating solutions for modern homes.</p>
+                            <a href="#" class="text-[#FDD249] font-medium hover:underline inline-flex items-center">
+                                Read More <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <div class="bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden hover:border-[#FDD249]/30 transition duration-300">
+                        <div class="h-48 bg-gradient-to-br from-[#222222] to-[#111111]"></div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-[#F3F3F3] mb-2">Why Infrared Beats Traditional Heating</h3>
+                            <p class="text-[#64656A] mb-4">Learn why more homeowners are switching to infrared for comfort, efficiency, and design.</p>
+                            <a href="#" class="text-[#FDD249] font-medium hover:underline inline-flex items-center">
+                                Read More <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in" style="animation-delay: 0.5s;">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-[#64656A] rounded-full text-[#F3F3F3] hover:border-[#FDD249] hover:text-[#FDD249] transition duration-300">
+                    Read More Articles <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-b from-[#111111] to-[#000000]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-[#111111] border border-[#222222] rounded-3xl p-12 text-center fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="gradient-text">Upgrade to Smarter,</span>
+                    <span class="text-[#F3F3F3]"> Greener Heating</span>
+                </h2>
+                <p class="text-xl text-[#64656A] max-w-3xl mx-auto mb-8">
+                    Enjoy beautiful design, advanced technology, and eco-conscious warmth—all in one panel.
+                </p>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="#" class="btn-glow px-8 py-4 rounded-full bg-[#FDD249] text-[#111111] font-semibold hover:bg-[#f8d86c] transition duration-300 relative overflow-hidden text-lg">
+                        Shop Now
+                    </a>
+                    <a href="#" class="px-8 py-4 rounded-full border-2 border-[#64656A] text-[#F3F3F3] font-semibold hover:border-[#FDD249] hover:text-[#FDD249] transition duration-300 text-lg">
+                        Request a Free Consultation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#000000] py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold gradient-text mb-4">SunWave</h3>
+                    <p class="text-[#64656A] mb-4">Heating That's Beautiful, Smart & Sustainable</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-[#F3F3F3] mb-4">Products</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">All Panels</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Smart Controls</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Accessories</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Commercial Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-[#F3F3F3] mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Blog</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">FAQ</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Installation Guide</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Sustainability Report</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-[#F3F3F3] mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Careers</a></li>
+                        <li><a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-[#222222]">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-[#64656A] mb-4 md:mb-0">© 2023 SunWave Sweden. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Privacy Policy</a>
+                        <a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Terms of Service</a>
+                        <a href="#" class="text-[#64656A] hover:text-[#FDD249] transition duration-300">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple fade-in animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeInOnScroll = function() {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.style.opacity = '1';
+                    }
+                });
+            };
+            
+            // Initial check
+            fadeInOnScroll();
+            
+            // Check on scroll
+            window.addEventListener('scroll', fadeInOnScroll);
+            
+            // Floating animation for decorative elements
+            const floatingElements = document.querySelectorAll('.floating, .floating-2, .floating-3');
+            floatingElements.forEach(el => {
+                el.style.animationDelay = Math.random() * 2 + 's';
+            });
+        });
+    </script>
+</body>
+</html>
