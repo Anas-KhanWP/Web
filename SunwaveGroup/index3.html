@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decorative Infrared Heating Panel | SunWave Sweden</title>
+    <meta name="description" content="Discover innovative Infrared heating panels—organic tech, zero emissions, 80% energy save, easy installation, smart Wi-Fi control. Sustainable comfort awaits.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .pre-header-slider {
+            background: linear-gradient(90deg, #111111 0%, #FDD249 100%);
+            animation: slide 15s infinite;
+        }
+        
+        @keyframes slide {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hero-panel-glow {
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(253, 210, 73, 0.5);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(253, 210, 73, 0.8);
+            }
+        }
+        
+        .heat-wave {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .heat-wave::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(253, 210, 73, 0.1) 0%, transparent 70%);
+            animation: pulse 4s infinite;
+            z-index: -1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .panel-gallery img {
+            transition: all 0.3s ease;
+        }
+        
+        .panel-gallery img:hover {
+            transform: scale(1.03);
+        }
+        
+        .earth-animation {
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+        }
+        
+        .slide-left {
+            transform: translateX(-50px);
+        }
+        
+        .slide-left.visible {
+            transform: translateX(0);
+        }
+        
+        .slide-right {
+            transform: translateX(50px);
+        }
+        
+        .slide-right.visible {
+            transform: translateX(0);
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%) rotate(45deg);
+            transition: transform 0.6s ease;
+        }
+        
+        .btn-primary:hover::after {
+            transform: translateX(100%) rotate(45deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <!-- Pre-Header Slider -->
+    <div class="pre-header-slider text-white py-2 px-4 text-center text-sm md:text-base font-medium">
+        <div class="max-w-7xl mx-auto">
+            <p class="animate-marquee whitespace-nowrap">Welcome Deal: Meet the Future of Heating – 40% Off Selected Panels! | Shop Now</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-gray-900 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-yellow-300">SunWave</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#products" class="hover:text-yellow-300 transition">Products</a>
+                    <a href="#technology" class="hover:text-yellow-300 transition">Technology</a>
+                    <a href="#benefits" class="hover:text-yellow-300 transition">Benefits</a>
+                    <a href="#sustainability" class="hover:text-yellow-300 transition">Sustainability</a>
+                    <a href="#testimonials" class="hover:text-yellow-300 transition">Testimonials</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-yellow-300 hover:bg-yellow-400 text-gray-900 px-4 py-2 rounded-md font-medium transition transform hover:scale-105">
+                        Shop Now
+                    </button>
+                    <button class="md:hidden text-white">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gray-900 text-white overflow-hidden">
+        <div id="particles-js"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Infrared <span class="text-yellow-300">Heating Panels</span></h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-8">Experience the future of heating technology with patented IR heating panels made from 100% organic materials. Designed for beauty, built for performance—SunWave delivers safe, efficient, and sustainable warmth to every room.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="btn-primary bg-yellow-300 hover:bg-yellow-400 text-gray-900 px-8 py-3 rounded-md font-bold text-lg transition transform hover:scale-105">
+                            Shop Now
+                        </button>
+                        <button class="border border-gray-500 hover:border-yellow-300 text-white px-8 py-3 rounded-md font-medium text-lg transition hover:text-yellow-300">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+                <div class="fade-in slide-right relative">
+                    <div class="hero-panel-glow rounded-lg overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                             alt="SunWave Infrared Heating Panel" 
+                             class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-yellow-300 text-gray-900 px-4 py-2 rounded-lg font-bold shadow-lg">
+                        -40% OFF
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem Section -->
+    <section id="problem" class="py-20 bg-white heat-wave">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in slide-left">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Say Goodbye to High Bills and Inefficient Systems</h2>
+                    <p class="text-lg text-gray-600 mb-6">Traditional radiators are costly to run, provide uneven heating, and can contribute to poor indoor air quality by circulating dust and allergens.</p>
+                    <p class="text-lg text-gray-600">They waste energy by heating the air rather than objects and people, leading to higher bills and uncomfortable temperature fluctuations.</p>
+                </div>
+                <div class="fade-in slide-right relative">
+                    <div class="relative h-80 md:h-96">
+                        <div class="absolute inset-0 bg-gray-200 rounded-lg shadow-md flex items-center justify-center">
+                            <i class="fas fa-radiator text-6xl text-gray-400"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-yellow-300 rounded-lg shadow-md flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-500">
+                            <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+                                 alt="SunWave Panel" 
+                                 class="w-full h-full object-cover rounded-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Innovation Section -->
+    <section id="technology" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Organic Infrared Technology That Works for You</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">SunWave panels use infrared technology to warm walls and objects directly, not just the air. This results in more efficient heating that saves up to 80% energy compared to traditional systems.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 fade-in">
+                    <div class="text-yellow-300 text-4xl mb-4">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">100% Organic Technology</h3>
+                    <p class="text-gray-600">Made from natural materials with no harmful emissions or byproducts.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 fade-in" style="transition-delay: 0.1s">
+                    <div class="text-yellow-300 text-4xl mb-4">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Zero Emissions</h3>
+                    <p class="text-gray-600">Clean heating solution that doesn't contribute to air pollution.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 fade-in" style="transition-delay: 0.2s">
+                    <div class="text-yellow-300 text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">5-Year Warranty</h3>
+                    <p class="text-gray-600">Our confidence in quality backed by an extensive warranty.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 fade-in" style="transition-delay: 0.3s">
+                    <div class="text-yellow-300 text-4xl mb-4">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Certified Quality</h3>
+                    <p class="text-gray-600">CE, ISO, DEKRA, and Fraunhofer certified for safety and performance.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 fade-in" style="transition-delay: 0.4s">
+                    <div class="text-yellow-300 text-4xl mb-4">
+                        <i class="fas fa-volume-mute"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Silent Operation</h3>
+                    <p class="text-gray-600">No noisy fans or pumps - just peaceful, radiant warmth.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 fade-in" style="transition-delay: 0.5s">
+                    <div class="text-yellow-300 text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Energy Efficient</h3>
+                    <p class="text-gray-600">Uses up to 80% less energy than conventional heating systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Benefits Section -->
+    <section id="benefits" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Efficient Heating Has Never Looked This Good</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Our decorative panels blend seamlessly with any interior design, from modern minimalist to classic Scandinavian.</p>
+            </div>
+            
+            <div class="panel-gallery grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <div class="fade-in">
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                             alt="Modern Panel Design" 
+                             class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Modern Abstract</h3>
+                            <p class="text-gray-600 mb-4">Sleek design with geometric patterns for contemporary spaces.</p>
+                            <button class="text-yellow-300 font-medium hover:text-yellow-400 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="transition-delay: 0.1s">
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ce1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                             alt="Nature Inspired Panel" 
+                             class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Nature Inspired</h3>
+                            <p class="text-gray-600 mb-4">Organic patterns that bring the outdoors inside.</p>
+                            <button class="text-yellow-300 font-medium hover:text-yellow-400 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in" style="transition-delay: 0.2s">
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                             alt="Minimalist Panel Design" 
+                             class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Minimalist White</h3>
+                            <p class="text-gray-600 mb-4">Clean, simple design that disappears into your walls.</p>
+                            <button class="text-yellow-300 font-medium hover:text-yellow-400 transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="fade-in flex items-start" style="transition-delay: 0.3s">
+                    <div class="text-yellow-300 text-2xl mr-4 mt-1">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Smart Wi-Fi Control</h3>
+                        <p class="text-gray-600">Control your heating from anywhere with our intuitive app.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in flex items-start" style="transition-delay: 0.4s">
+                    <div class="text-yellow-300 text-2xl mr-4 mt-1">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Easy Installation</h3>
+                        <p class="text-gray-600">Mounts like a picture frame - no complex plumbing required.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in flex items-start" style="transition-delay: 0.5s">
+                    <div class="text-yellow-300 text-2xl mr-4 mt-1">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Safe for Kids & Pets</h3>
+                        <p class="text-gray-600">Cool-to-touch surface with no exposed heating elements.</p>
+                    </div>
+                </div>
+                
+                <div class="fade-in flex items-start" style="transition-delay: 0.6s">
+                    <div class="text-yellow-300 text-2xl mr-4 mt-1">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Energy Monitoring</h3>
+                        <p class="text-gray-600">Track your energy savings in real-time through the app.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Section -->
+    <section id="sustainability" class="py-20 bg-gray-900 text-white heat-wave">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in slide-left">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Powerful Heating Without the Carbon Footprint</h2>
+                    <p class="text-lg text-gray-300 mb-6">SunWave panels operate on clean electricity with zero emissions at point of use. When paired with renewable energy sources, they offer completely carbon-neutral heating.</p>
+                    <p class="text-lg text-gray-300 mb-8">Our manufacturing process uses recycled materials and renewable energy, making SunWave one of the most sustainable heating solutions available today.</p>
+                    
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <img src="https://via.placeholder.com/80x50?text=CE" alt="CE Certified" class="h-10 opacity-80 hover:opacity-100 transition">
+                        <img src="https://via.placeholder.com/80x50?text=ISO" alt="ISO Certified" class="h-10 opacity-80 hover:opacity-100 transition">
+                        <img src="https://via.placeholder.com/80x50?text=DEKRA" alt="DEKRA Certified" class="h-10 opacity-80 hover:opacity-100 transition">
+                        <img src="https://via.placeholder.com/80x50?text=Fraunhofer" alt="Fraunhofer Certified" class="h-10 opacity-80 hover:opacity-100 transition">
+                    </div>
+                </div>
+                <div class="fade-in slide-right flex justify-center">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80">
+                        <img src="https://cdn.pixabay.com/photo/2012/04/01/16/51/earth-23409_960_720.png" 
+                             alt="Earth" 
+                             class="w-full h-full earth-animation">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-yellow-300 bg-opacity-20 flex items-center justify-center">
+                                <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-yellow-300 bg-opacity-40 flex items-center justify-center">
+                                    <div class="w-8 h-8 md:w-12 md:h-12 rounded-full bg-yellow-300"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comfort Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in slide-left order-2 md:order-1">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Instant Warmth. Lasting Impact.</h2>
+                    <p class="text-lg text-gray-600 mb-6">Experience immediate comfort as SunWave panels begin radiating warmth the moment they're turned on. Unlike traditional systems that take time to heat up, our infrared technology delivers instant results.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <div class="text-yellow-300 mr-3 mt-1">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="text-gray-700">Even heating distribution eliminates cold spots</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-yellow-300 mr-3 mt-1">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="text-gray-700">Improved air quality with reduced dust circulation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-yellow-300 mr-3 mt-1">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="text-gray-700">Gentle warmth that doesn't dry out the air</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-yellow-300 mr-3 mt-1">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="text-gray-700">Zone heating allows customized comfort in every room</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="fade-in slide-right order-1 md:order-2 relative">
+                    <div class="rounded-xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1583845112208-9b7808ee2ee0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Cozy Scandinavian Living Room" 
+                             class="w-full h-auto">
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 bg-white px-4 py-2 rounded-lg shadow-lg flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-yellow-300 mr-2 animate-pulse"></div>
+                        <span class="font-medium">Heating Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted Section -->
+    <section id="testimonials" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Heating That Delivers Results—From Sweden to 17 Countries</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Trusted by homeowners, architects, and businesses across Europe for reliable, efficient heating solutions.</p>
+            </div>
+            
+            <div class="relative mb-16 fade-in">
+                <div class="w-full h-64 md:h-96 bg-gray-100 rounded-xl overflow-hidden relative">
+                    <img src="https://cdn.pixabay.com/photo/2018/02/13/23/41/map-3152169_960_720.png" 
+                         alt="Europe Map" 
+                         class="w-full h-full object-contain">
+                    <div class="absolute top-1/4 left-1/4 w-3 h-3 rounded-full bg-yellow-300 animate-pulse"></div>
+                    <div class="absolute top-1/3 right-1/4 w-3 h-3 rounded-full bg-yellow-300 animate-pulse"></div>
+                    <div class="absolute bottom-1/3 left-1/3 w-3 h-3 rounded-full bg-yellow-300 animate-pulse"></div>
+                    <div class="absolute top-1/2 right-1/3 w-3 h-3 rounded-full bg-yellow-300 animate-pulse"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-3 h-3 rounded-full bg-yellow-300 animate-pulse"></div>
+                    <div class="absolute top-1/4 right-1/2 w-3 h-3 rounded-full bg-yellow-300 animate-pulse"></div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="fade-in bg-gray-50 p-8 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-300 text-2xl mr-2">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="text-gray-600 italic">
+                            "Our energy bills dropped by 60% after switching to SunWave panels. The installation was simple and they look fantastic in our home."
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Anna L." class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <div class="font-bold">Anna L.</div>
+                            <div class="text-sm text-gray-500">Stockholm, Sweden</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in bg-gray-50 p-8 rounded-xl" style="transition-delay: 0.1s">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-300 text-2xl mr-2">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="text-gray-600 italic">
+                            "As a hotel owner, I appreciate both the energy savings and the aesthetic appeal. Our guests often compliment the stylish heating panels."
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Markus T." class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <div class="font-bold">Markus T.</div>
+                            <div class="text-sm text-gray-500">Oslo, Norway</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in bg-gray-50 p-8 rounded-xl" style="transition-delay: 0.2s">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-300 text-2xl mr-2">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="text-gray-600 italic">
+                            "The smart controls allow me to heat only the rooms we're using. Our old system wasted so much energy heating empty spaces."
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Eva K." class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <div class="font-bold">Eva K.</div>
+                            <div class="text-sm text-gray-500">Copenhagen, Denmark</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-20 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Embrace Smarter, Greener Heating Today</h2>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-10">Join thousands of satisfied customers across Europe who are enjoying comfortable, cost-effective heating with SunWave.</p>
+            
+            <div class="flex flex-wrap justify-center gap-6">
+                <button class="btn-primary bg-yellow-300 hover:bg-yellow-400 text-gray-900 px-8 py-4 rounded-md font-bold text-lg transition transform hover:scale-105">
+                    Shop the Collection
+                </button>
+                <button class="border-2 border-white hover:border-yellow-300 text-white hover:text-yellow-300 px-8 py-4 rounded-md font-bold text-lg transition">
+                    Contact Our Team
+                </button>
+                <button class="text-white hover:text-yellow-300 font-bold text-lg flex items-center transition">
+                    Discover More <i class="fas fa-chevron-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-4">SunWave</h3>
+                    <p class="mb-4">Innovative infrared heating solutions for modern living.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-yellow-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-300 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-300 transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-4">Products</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-yellow-300 transition">All Panels</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Modern Designs</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Nature Inspired</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Minimalist Collection</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Smart Controls</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-yellow-300 transition">FAQ</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Installation Guide</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Warranty</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Returns</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-yellow-300 transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Sustainability</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-yellow-300 transition">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm mb-4 md:mb-0">© 2023 SunWave AB. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-sm hover:text-yellow-300 transition">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-yellow-300 transition">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-yellow-300 transition">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('particles-js')) {
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#FDD249"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            },
+                            "polygon": {
+                                "nb_sides": 5
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.5,
+                            "random": false,
+                            "anim": {
+                                "enable": false,
+                                "speed": 1,
+                                "opacity_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 40,
+                                "size_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#FDD249",
+                            "opacity": 0.4,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "bubble": {
+                                "distance": 400,
+                                "size": 40,
+                                "duration": 2,
+                                "opacity": 8,
+                                "speed": 3
+                            },
+                            "repulse": {
+                                "distance": 200,
+                                "duration": 0.4
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            },
+                            "remove": {
+                                "particles_nb": 2
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }
+            
+            // Scroll animations
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Pre-header marquee animation
+            const marqueeText = document.querySelector('.animate-marquee');
+            if (marqueeText) {
+                marqueeText.innerHTML = marqueeText.textContent.replace(/\S+/g, "<span>$&</span>");
+                
+                const spans = marqueeText.querySelectorAll('span');
+                spans.forEach((span, index) => {
+                    span.style.animationDelay = `${index * 0.2}s`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
