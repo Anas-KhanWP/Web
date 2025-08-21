@@ -2216,7 +2216,7 @@ textarea.w-select {
 
 :root {
   --dark--dark-3: #494552;
-  --dark--dark-1: #0f0629;
+  --dark--dark-1: #000e05;
   --color-primary: #5c2ede;
   --dark--dark-4: #84828b;
   --dark--dark-2: #2c2933;
@@ -4027,13 +4027,13 @@ figure {
 }
 
 .button-primary.is-outline {
-  border-color: var(--color-primary);
+  border-color: #13aa47;
   background-color: var(--transparent);
-  color: var(--color-primary);
+  color: #13aa47;
 }
 
 .button-primary.is-outline:hover {
-  background-color: var(--color-primary);
+  background-color: #13aa47;
   color: var(--white);
 }
 
@@ -4386,7 +4386,7 @@ figure {
 }
 
 .text-color-primary {
-  color: var(--color-primary);
+  color: #13aa47;
 }
 
 .margin-zero {
@@ -5415,7 +5415,7 @@ figure {
 }
 
 .cart-button {
-  border: 1px solid var(--color-primary);
+  border: 1px solid #13aa47;
   background-color: var(--transparent);
   color: var(--dark--dark-2);
   border-radius: 16px;
@@ -5811,7 +5811,7 @@ figure {
 }
 
 .title-span {
-  color: var(--color-primary);
+  color: #13aa47;
   background-image: url("https://assets-global.website-files.com/660e3b2fed9fd57ff69cb4c4/661e0e6b32b08d84fdc8ba89_Vector%2031%20(1).png");
   background-position: 0 100%;
   background-repeat: no-repeat;
@@ -5837,7 +5837,7 @@ figure {
 }
 
 .title-span.is-project {
-  color: #a32feb;
+  color: #13aa47;
   font-weight: 700;
 }
 
@@ -5950,7 +5950,7 @@ figure {
 }
 
 .project-category {
-  background-color: var(--color-primary);
+  background-color: #13aa47;
   border-radius: 4px;
   padding: 6px 16px;
   display: inline-block;
@@ -6147,7 +6147,7 @@ figure {
 
 .client-testimonial-arrow-wrap {
   aspect-ratio: 1;
-  background-color: var(--color-primary);
+  background-color: #13aa47;
   border-radius: 100vw;
   justify-content: center;
   align-items: center;
@@ -6157,8 +6157,8 @@ figure {
 }
 
 .client-testimonial-arrow-wrap:hover {
-  color: var(--color-primary);
-  background-color: #efeafc;
+  color: #13aa47;
+  background-color: #d5f5e0;
 }
 
 .client-testimonial-item {
@@ -6274,7 +6274,7 @@ figure {
 }
 
 .blog-category-text {
-  color: var(--color-primary);
+  color: #13aa47;
   font-size: 14px;
   line-height: 1.4;
 }
@@ -6284,7 +6284,7 @@ figure {
 }
 
 .blog-category {
-  background-color: #efeafc;
+  background-color: #eafcea;
   border-radius: 100px;
   padding: 5px 12px;
 }
@@ -6302,7 +6302,7 @@ figure {
 }
 
 .section-footer-cta {
-  background-color: var(--dark--dark-1);
+  background-color: #001e0b;
   background-image: url("https://assets-global.website-files.com/660e3b2fed9fd57ff69cb4c4/66137bfa6ed70d12604f800a_Vector.png");
   background-position: 0 0;
   background-repeat: no-repeat;
@@ -6330,7 +6330,7 @@ figure {
 }
 
 .footer-cta-title {
-  color: var(--color-primary);
+  color: #13aa47;
   text-align: center;
   font-size: 52px;
   font-weight: 700;
@@ -8150,7 +8150,7 @@ figure {
 .scrolll-top {
   z-index: 30;
   aspect-ratio: 1;
-  background-color: var(--color-primary);
+  background-color: #13aa47;
   color: #fff;
   border-radius: 100%;
   flex-direction: row;
