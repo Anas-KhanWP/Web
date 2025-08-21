@@ -4008,7 +4008,7 @@ figure {
 
 .button-primary {
   border: 2px solid var(--transparent);
-  background-color: #2ede52;
+  background-color: #2cc54c;
   color: var(--white);
   letter-spacing: .5px;
   text-transform: capitalize;
@@ -5679,7 +5679,7 @@ figure {
 }
 
 .hero-text-span {
-  color: #2ede52;
+  color: #2cc54c;
   background-image: url("https://assets-global.website-files.com/660e3b2fed9fd57ff69cb4c4/661379f12d33078f0cd181ab_Vector%2031.png");
   background-position: 50% 91%;
   background-repeat: no-repeat;
@@ -11658,4 +11658,4 @@ figure {
   font-weight: 800;
   font-style: normal;
   font-display: swap;
-}z
+}
