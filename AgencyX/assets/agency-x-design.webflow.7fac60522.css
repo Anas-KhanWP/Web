@@ -11659,3 +11659,13 @@ figure {
   font-style: normal;
   font-display: swap;
 }
+
+a.w-commerce-commercecartopenlink.cart-button.w-inline-block {display: none !important;}
+
+.work-process-content:hover {
+    background-color: #13aa47 !important;
+}
+
+a.w-webflow-badge {
+    display: none !important;
+}
