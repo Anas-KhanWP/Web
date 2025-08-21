@@ -4958,7 +4958,7 @@ figure {
 
 .hero-blur-background {
   aspect-ratio: 1;
-  background-color: var(--color-primary);
+  background-color: #13aa47;
   opacity: .5;
   filter: blur(400px);
   pointer-events: none;
