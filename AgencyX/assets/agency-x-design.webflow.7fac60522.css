@@ -11669,3 +11669,7 @@ a.w-commerce-commercecartopenlink.cart-button.w-inline-block {display: none !imp
 a.w-webflow-badge {
     display: none !important;
 }
+
+svg.yt-svg-one {
+    display: none !important;
+}
