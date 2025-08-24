@@ -11942,3 +11942,7 @@ svg.feature-check-icon.circle {
   height: 45px;
   padding-left: 7px;
 }
+
+html {
+  overflow-x: hidden;
+}
