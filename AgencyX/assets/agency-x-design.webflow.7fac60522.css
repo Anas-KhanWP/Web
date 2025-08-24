@@ -5708,7 +5708,7 @@ figure {
   z-index: -1;
   text-align: center;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(90deg, rgba(240, 243, 250, .02), #f0f3fa 56%, rgba(240, 243, 250, .02));
+  background-image: linear-gradient(90deg, rgb(241 250 240 / 2%), #f2faf0 56%, rgba(240, 243, 250, .02));
   -webkit-background-clip: text;
   background-clip: text;
   font-size: 236px;
