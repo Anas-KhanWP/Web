@@ -11900,3 +11900,10 @@ svg.yt-svg-one {
 .jw5x-tag.jw5x-cream {
   background-color: #f8f1e4;
 }
+
+.zx9k-main-wrapper .jw5x-tag {
+  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.zx9k-main-wrapper .jw5x-tag:hover {
+  width: 150px;
+}
