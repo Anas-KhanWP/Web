@@ -11681,7 +11681,7 @@ svg.yt-svg-one {
   z-index: 10 !important;
   width: 100vw;
   padding: 128px 32px;
-  background-color: #141c24;
+  background-color: #0a120b;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -11744,11 +11744,12 @@ svg.yt-svg-one {
   cursor: pointer;
   margin-top: 0;
   margin-bottom: 0;
+  text-align: left;
 }
 
 @media screen and (max-width: 767px) {
   .df5g-title.lk2j-white-text {
-    font-size: 20px;
+    font-size: 20px !important;
     line-height: 24px;
   }
 }
@@ -11759,14 +11760,12 @@ svg.yt-svg-one {
   font-size: 25px !important;
   font-weight: 400;
   position: relative;
-  min-width: fit-content;
-  width: 100px;
   text-align: center;
 }
 
 @media screen and (max-width: 767px) {
   .df5g-title.jw5x-label {
-    font-size: 16px;
+    font-size: 16px !important;
     margin-top: 0;
     margin-bottom: 0;
     line-height: 100%;
@@ -11776,7 +11775,7 @@ svg.yt-svg-one {
 
 .zx9k-main-wrapper h2 {
   margin-top: 20px;
-  font-size: 32px;
+  font-size: 32px !important;
   line-height: 36px;
 }
 
@@ -11794,7 +11793,7 @@ svg.yt-svg-one {
 
 .zx9k-main-wrapper h5 {
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 20px;
 }
 
@@ -11805,7 +11804,7 @@ svg.yt-svg-one {
 .zx9k-main-wrapper h5,
 .zx9k-main-wrapper h6 {
   margin-bottom: 10px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .rt4h-btn {
@@ -11872,11 +11871,15 @@ svg.yt-svg-one {
 }
 
 .jw5x-tag {
-  padding: 8px 32px;
+  padding: 8px 25px;
   border-radius: 128px;
   justify-content: center;
   align-items: center;
-  display: flex;
+  display: inline-flex;
+  width: 10px;
+  min-width: fit-content;
+  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-transform: uppercase;
 }
 
 @media screen and (max-width: 767px) {
