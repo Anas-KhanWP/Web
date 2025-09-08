@@ -4313,7 +4313,7 @@ figure {
 .hero-title {
   max-width: 14ch;
   font-weight: 700;
-  line-height: 1.33;
+  line-height: 1.1;
 }
 
 .typobadge-rotate-text {
@@ -5634,7 +5634,7 @@ figure {
   position: absolute;
   top: auto;
   bottom: -120px;
-  left: 203px;
+  left: 345px;
   right: auto;
 }
 
