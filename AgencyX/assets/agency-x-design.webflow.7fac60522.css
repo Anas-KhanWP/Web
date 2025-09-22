@@ -6008,8 +6008,14 @@ figure {
   align-items: center;
   position: relative;
   overflow: hidden;
-  max-width: 570px;
+  max-width: 660px;
   min-height: 570px;
+}
+
+@media screen and (max-width: 1150px) {
+  .project-thumb-wrapper {
+    max-width: 570px;
+  }
 }
 
 .project-thumbnail {
