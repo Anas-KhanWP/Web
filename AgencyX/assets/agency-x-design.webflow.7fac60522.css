@@ -4314,6 +4314,10 @@ figure {
   max-width: 14ch;
   font-weight: 700;
   line-height: 1.1;
+  color: var(--dark--dark-1);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 55px;
 }
 
 .typobadge-rotate-text {
