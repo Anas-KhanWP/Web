@@ -4334,6 +4334,8 @@ figure {
   font-size: 18px;
 }
 
+h1.hero-info { color: var(--dark--dark-3) !important; font-weight: 400 !important; line-height: 1.5 !important;  margin-left: 5px !important; margin-bottom: 10px !important; }
+
 .hero-info.is-v2 {
   color: var(--dark--dark-5);
   max-width: 661px;
