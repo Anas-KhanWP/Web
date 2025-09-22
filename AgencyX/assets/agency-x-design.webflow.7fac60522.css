@@ -6008,10 +6008,13 @@ figure {
   align-items: center;
   position: relative;
   overflow: hidden;
+  max-width: 570px;
+  min-height: 570px;
 }
 
 .project-thumbnail {
   width: 100%;
+  min-height: 570px;
 }
 
 .cta-large-text {
