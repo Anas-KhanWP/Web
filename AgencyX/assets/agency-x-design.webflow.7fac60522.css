@@ -5894,6 +5894,7 @@ h1.hero-info { color: var(--dark--dark-3) !important; font-weight: 400 !importan
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  max-width: 80px;
 }
 
 .section-project {
