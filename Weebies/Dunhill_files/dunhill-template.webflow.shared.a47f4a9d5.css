@@ -3532,6 +3532,7 @@ img {
   grid-row-gap: 20px;
   flex-flow: column;
   display: flex;
+  width: 75%;
 }
 
 .header-left.max-590 {
