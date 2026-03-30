@@ -293,3 +293,13 @@ li strong {
         max-width: 100%;
     }
 }
+
+@media (min-width: 1450px) {
+    .pricing-container {
+        max-width: 5000px;
+    }
+
+    .pricing-card {
+        max-width: 500px;
+}
+
