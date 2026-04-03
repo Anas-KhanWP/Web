@@ -304,3 +304,7 @@ li strong {
         max-width: 500px;
 }
 
+
+.pricing-card:hover {
+    transform: scale(1.1);
+}
