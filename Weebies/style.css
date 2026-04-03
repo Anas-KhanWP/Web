@@ -290,7 +290,7 @@ li strong {
 
 @media (max-width: 640px) {
     .pricing-card {
-        max-width: 100%;
+        max-width: 90%;
     }
 }
 
