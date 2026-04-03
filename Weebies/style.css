@@ -47,9 +47,10 @@
     width: 100%;
     max-width: 300px;
     position: relative;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px rgb(0 0 0 / 29%);
     display: flex;
     flex-direction: column;
+    transition: all .2s ease-in-out;
 }
 
 .card-pro {
